@@ -1,0 +1,72 @@
+{
+  "project_info": {
+    "project_number": "208525305220",
+    "firebase_url": "https://eblog-88c43.firebaseio.com",
+    "project_id": "eblog-88c43",
+    "storage_bucket": "eblog-88c43.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208525305220:android:742edaee2632a778",
+        "android_client_info": {
+          "package_name": "in.org.eonline.eblog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "208525305220-t37f0rnk060lapkk6u2b8hj4fuk1vm4r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.org.eonline.eblog",
+            "certificate_hash": "34097b9e18b8aa19d16cfe11999bf5da2d9ac71b"
+          }
+        },
+        {
+          "client_id": "208525305220-ir4mbgd4ganbbnv1v0q2jlovj4ld057l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.org.eonline.eblog",
+            "certificate_hash": "c48d24e75da02f5418ba21ed7752779eed6fb6fe"
+          }
+        },
+        {
+          "client_id": "208525305220-tvfufj5fr7cedvdfeg18elsqkijolgjt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.org.eonline.eblog",
+            "certificate_hash": "ec0bb6a68e2a081e0aab5542037a10a9199581d6"
+          }
+        },
+        {
+          "client_id": "208525305220-6dn273jul1daeo06dfhi2htmcoj2ginm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOMI1cVE4ma8e7beP8P1dTgFbDRC_SH1A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "208525305220-hq4b7qa997di3qlbj3ol7dp8teo058jq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      },
+      "admob_app_id": "ca-app-pub-7293397784162310~9840078574"
+    }
+  ],
+  "configuration_version": "1"
+}

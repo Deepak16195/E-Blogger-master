@@ -1,0 +1,146 @@
+<resources>
+    <string name="app_name">E Blogger</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="new_app_name">E-Blogger</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="admob_id_label">Enter your AdMob Banner Ad Unit Id</string>
+    <string name="admob_id_hint">Google AdMob Banner Ad Unit Id</string>
+    <string name="test_ad_id">For eg. ca-app-pub-3940256099942544/6300978111</string>
+    <string name="submit_button">Submit</string>
+    <string name="dialog_fire_missiles">Fire it Man</string>
+    <string name="fire">fire</string>
+    <string name="cancel">cancel</string>
+    <string name="app_motto">Earn more by writing well</string>
+
+    <string name="terms_conditions_0">
+        By creating a E-Blogger account, whether through a mobile device, mobile application or computer (collectively, the “Service”)
+        you agree to be bound by these Terms of Use (this “Agreement”).
+        If you wish to create a E-Blogger account and make use of the Service, please read this Agreement.
+    </string>
+
+
+    <string name="terms_conditions_1">The content used in blogs must be real and original.
+        \n\nNo copy pasted content will be allowed in blogs.\n\nIf any blog is found to be copy pasted,
+        then that particular blog will be deleted and warning will be issued to the user.</string>
+
+    <string name="terms_conditions_2">No use of unacceptable, disgraceful, intolerable and bad words will be allowed in the content.
+        \n\nBlogs having use of such language will be deleted.</string>
+
+    <string name="terms_conditions_3">No vulgar content and images will be allowed in the blogs.
+        \n\nIf any blog with vulgar, pornographic content is found then that particular user\'s account will be blocked.</string>
+
+    <string name="terms_conditions_4">Content of blog must be readable to all age groups.
+        \n\nContent of blog should not be based on any false information or hatred towards any religion, caste and creed.
+        \n\nContent based on fake news and falsified information should be strictly prohibited and
+        appropriate action will be taken against the user.</string>
+
+    <string name="terms_conditions_5">Do not use multiple Google AdMob accounts to get the clicks and impressions on your own blogs.
+        Otherwise your AdMob account will be blocked by Google and we can not help you in that case.
+        Still you will be able to use E-Blogger application, create and access all of your blogs.</string>
+
+    <string name="terms_conditions_6">Adding more Terms and Conditions soon...</string>
+
+    <string name="faq_1">
+        <b> 1. How I can earn with E-Bogger App? </b>
+        \n&#160;- You need to monetize your Blogs in order to earn through Blogs. More the Blogs, more the earning!
+    </string>
+
+    <string name="faq_2">
+        <b> 2. What does it mean to monetize the Blogs? </b>
+        \n&#160;- Whenever you create a Blog in E-Blogger Application, we will load your Google AdMob Ad on your Blog.
+        You can not see your own Ad on your own Blog. Other people will be able to see your Ads on your Blogs.
+    </string>
+
+    <string name="faq_3">
+        <b> 3. Why I can not see my own Ad on my own Blogs? </b>
+        \n&#160;- To prevent from invalid clicks and impressions we do not allow users to see their own Ads on their own Blogs.
+        Even the Google AdMob\'s policy has this rule. Google AdMob will block your account if you click on your own Ads and make earnings.
+
+    </string>
+
+    <string name="faq_4">
+        <b> 4. What is required to monetize a Blog? </b>
+        \n&#160;- All you need is a Google AdMob account with a Banner Ad Unit Id. You need to enter your Banner Ad Unit Id on
+        Monetization section of E-Blogger App and we will handle the rest.
+    </string>
+
+    <string name="faq_5">
+        <b> 5. How to get Google AdMob Banner Ad Unit Id? </b>
+        \n&#160;&#160;- a. Go to \"https://apps.admob.com\" and create AdMob account.
+        \n&#160;&#160;b. Once you create a AdMob account, you will be redirected to Google AdMob console. Open the left panel and click on \"Apps\".
+        \n&#160;&#160;c. Click on \"Add Your First App\" button. You will be asked, \"Have you published your Application on Google Play or the App Store?\" - Click \"No\".
+        \n&#160;&#160;d. Give any name to your Application and select platform as \"Android\". Click \"Add\" button.
+        \n&#160;&#160;e. You will get your AdMob App Id. Now click on \"Create Ad Unit\" button.
+        \n&#160;&#160;f. Select \"Banner\" as a ad format in the next step.
+        \n&#160;&#160;g. Give any name to your Ad Unit. Do not change any advanced settings.
+        \n&#160;&#160;h. Once you give name to your Ad Unit, click on \"Create Ad Unit\" button.
+        \n&#160;&#160;i. You are done! You will see your Banner Ad Unit Id. Remember Banner Ad Unit Id is the one which contains \"/\" in between.
+        \n&#160;&#160;<b>Note: If you see \"Missing Payment Information\" on your Google AdMob homepage then you should add payment info. Google will just ask you for your address
+        in order to receive further communications. If you failed to do this step then you won\'t receive Ads for your Banner Ad Unit Id. </b>
+    </string>
+
+    <string name="faq_6">
+        <b> 6. What to do once I have Banner Ad Unit Id? </b>
+        \n&#160;- As we said above, Just copy your AdMob banner Ad Unit Id and paste it on Monetization section of E-Blogger App and click Submit. We will remember your Banner Ad Unit Id
+        whenever you create a new Blog and we will load your Ad on your Blogs.
+    </string>
+
+    <string name="faq_7">
+        <b> 7. What happens when I submit my Banner Ad Unit Id on E-Blogger App? </b>
+        \n&#160;- Banner Ad Unit Id is like a container where we will give some space of our application to load Ads in your Banner Ad. That space will be on your Blog, so it is
+        a great tool to monetize and earn throug your Blogs.
+    </string>
+
+    <string name="faq_8">
+        <b> 8. Is Monetizing a Blog is mandatory to use this E-Blogger App? </b>
+        \n&#160;- No. It is not mandatory to monetize your Blogs. You can simply create Blogs as much as you want without having any AdMob account.
+    </string>
+
+    <string name="faq_9">
+        <b> 9. Can I enter more than one Banner Ad Unit Id on Monetization Screen? </b>
+        \n&#160;- No. It is recommended that you should have only one Banner Ad Unit Id associated with one E-Blogger account.
+    </string>
+
+    <string name="faq_10">
+        <b> 10. Where should I reach if I have doubts/questions? </b>
+        \n&#160;- You can reach us at <b> info@eonline.org.in </b>.
+    </string>
+
+    <string-array name="blog_categories">
+        <item>Travelling</item>
+        <item>Food</item>
+        <item>Technology</item>
+        <item>Politics</item>
+        <item>Socialism</item>
+        <item>Gym</item>
+        <item>Fitness and Nutrition</item>
+        <item>Gaming</item>
+        <item>Bollywood and entertainment</item>
+        <item>Apparels</item>
+        <item>Cosmetics</item>
+        <item>Health</item>
+        <item>Personal Care and Hygiene</item>
+        <item>Business</item>
+        <item>Science</item>
+        <item>Studies</item>
+        <item>History</item>
+        <item>Programming</item>
+        <item>Cars and Bikes</item>
+        <item>Advertisement and Promotion</item>
+        <item>others</item>
+    </string-array>
+
+
+
+
+
+
+    <!-- OAuth 2.0 Web Application type client Id -->
+    <string name="client_id">208525305220-hq4b7qa997di3qlbj3ol7dp8teo058jq.apps.googleusercontent.com</string>
+</resources>

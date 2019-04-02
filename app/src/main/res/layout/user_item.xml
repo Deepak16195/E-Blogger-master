@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/_10sdp"
+    android:paddingTop="@dimen/_10sdp"
+    android:paddingEnd="@dimen/_10sdp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:id="@+id/user_image_item"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/gradient_corner"
+        android:padding="@dimen/_2sdp" />
+
+    <TextView
+        android:id="@+id/user_name_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vaibhav"
+        android:textSize="@dimen/_12sdp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:textColor="@color/black"/>
+
+</LinearLayout>

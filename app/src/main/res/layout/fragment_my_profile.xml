@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/my_profile_layout">
+
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swiperefresh_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.MyProfileFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_profile_image"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/gradient_corner"
+            android:padding="@dimen/_2sdp"
+            android:src="@drawable/user_shadow"/>
+
+        <TextView
+            android:id="@+id/user_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/user_profile_image"
+            android:text="Edit"
+            android:drawableStart="@drawable/ic_edit_black_24dp"
+            android:drawablePadding="@dimen/_4sdp"
+            android:textSize="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/user_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/user_profile_image"
+            android:text="Cancel"
+            android:drawableStart="@drawable/ic_cancel_black_24dp"
+            android:drawablePadding="@dimen/_4sdp"
+            android:textSize="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/first_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_50sdp"
+        android:layout_marginEnd="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:ems="10"
+        android:hint="Enter First Name"
+        android:textSize="@dimen/_14sdp"
+        android:inputType="textNoSuggestions"
+        android:maxLines="1"
+        android:maxLength="20"
+        android:background="@drawable/app_edittext_drawable"/>
+
+    <EditText
+        android:id="@+id/last_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_50sdp"
+        android:layout_marginEnd="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:ems="10"
+        android:hint="Enter Last Name"
+        android:textSize="@dimen/_14sdp"
+        android:inputType="textNoSuggestions"
+        android:maxLines="1"
+        android:maxLength="20"
+        android:background="@drawable/app_edittext_drawable"/>
+
+    <EditText
+        android:id="@+id/email_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_50sdp"
+        android:layout_marginEnd="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:ems="10"
+        android:hint="Enter Email"
+        android:textSize="@dimen/_14sdp"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:maxLength="50"
+        android:background="@drawable/app_edittext_drawable"/>
+
+    <EditText
+        android:id="@+id/mobile_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_50sdp"
+        android:layout_marginEnd="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:ems="10"
+        android:hint="Enter Mobile Number"
+        android:textSize="@dimen/_14sdp"
+        android:inputType="phone"
+        android:maxLength="15"
+        android:maxLines="1"
+        android:background="@drawable/app_edittext_drawable"/>
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_50sdp"
+        android:text="Save Profile"
+        android:background="@drawable/gradient_corner"
+        android:paddingStart="@dimen/_30sdp"
+        android:paddingEnd="@dimen/_30sdp"
+        android:textColor="#fff"
+        android:textAllCaps="false"
+        android:textSize="@dimen/_16sdp"/>
+
+    </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/myProfile_adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="ca-app-pub-7293397784162310/9320290434"
+            android:layout_alignParentBottom="true">
+        </com.google.android.gms.ads.AdView>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
