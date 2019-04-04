@@ -81,6 +81,11 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
     public ExploreFragment() {
         // Required empty public constructor
     }
+    public static ExploreFragment newInstance() {
+        ExploreFragment fragment = new ExploreFragment();
+        return fragment;
+    }
+
 
 
     @Override
@@ -145,7 +150,7 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
     }
 
     public void onRefreshOperation(){
-       // getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        // getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         Fragment frg = null;
         frg = getFragmentManager().findFragmentByTag("nav_home");
         final FragmentTransaction ft = getFragmentManager().beginTransaction();

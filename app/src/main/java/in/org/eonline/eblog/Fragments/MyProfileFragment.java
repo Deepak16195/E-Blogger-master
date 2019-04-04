@@ -143,6 +143,10 @@ public class MyProfileFragment extends Fragment {
     public MyProfileFragment() {
         // Required empty public constructor
     }
+    public static MyProfileFragment newInstance() {
+        MyProfileFragment fragment = new MyProfileFragment();
+        return fragment;
+    }
 
 
     @Override

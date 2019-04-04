@@ -177,6 +177,10 @@ public class CreateNewBlogFragment extends Fragment  {
     public CreateNewBlogFragment() {
         // Required empty public constructor
     }
+    public static CreateNewBlogFragment newInstance() {
+        CreateNewBlogFragment fragment = new CreateNewBlogFragment();
+        return fragment;
+    }
 
 
     @Override

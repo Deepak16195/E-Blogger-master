@@ -75,13 +75,14 @@ public class Login extends AppCompatActivity {
     private ViewPagerAdapter mAdapter;
     public String flag = "";
     public Dialog dialog;
+    private Button Click_SingnIn;
 
     private int[] mImageResources = {
             R.drawable.viewpagerone,
             R.drawable.viewpagertwo,
             R.drawable.viewpagerthree,
+            R.drawable.viewpagerfour,
             R.drawable.viewpagerfour
-
     };
 
     @Override
@@ -90,6 +91,7 @@ public class Login extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
         viewPager = (ViewPager) findViewById(R.id.viewPagerContainer);
+        Click_SingnIn = (Button) findViewById(R.id.Click_SingnIn);
       //  backButton = (TextView) findViewById(R.id.viewPagerBack);
        // nextButton = (TextView) findViewById(R.id.viewPagerNext);
         flag = "MainViewPager";
@@ -103,6 +105,23 @@ public class Login extends AppCompatActivity {
 
        // backButton.setOnClickListener(this);
        // nextButton.setOnClickListener(this);
+
+
+        Click_SingnIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                connectivityReceiver = new ConnectivityReceiver(getApplicationContext());
+                // Initialize SDK before setContentView(Layout ID)
+                isInternetPresent = connectivityReceiver.isConnectingToInternet();
+                if (isInternetPresent) {
+                    signIn();
+                } else {
+                    CommonDialog.getInstance().showErrorDialog(Login.this, R.drawable.no_internet);
+                    //Toast.makeText(Login.this, "No Internet Connection, Please connect to Internet.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         initializeViews();
 
@@ -164,7 +183,6 @@ public class Login extends AppCompatActivity {
         //mGoogleSignInClient.signOut();
         dialog = CommonDialog.getInstance().showProgressDialog(Login.this);
         dialog.show();
-
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,9 +46,12 @@ import in.org.eonline.eblog.Fragments.ExploreFragment;
 import in.org.eonline.eblog.Fragments.FAQFragment;
 import in.org.eonline.eblog.Fragments.MonetizationFragment;
 import in.org.eonline.eblog.Fragments.MyProfileFragment;
+import in.org.eonline.eblog.Fragments.NotificationsFragment;
 import in.org.eonline.eblog.Fragments.ReportBugFragment;
 import in.org.eonline.eblog.Fragments.TermsConditionsFragment;
 import in.org.eonline.eblog.Fragments.YourBlogsFragment;
+import in.org.eonline.eblog.Fragments.YourFriendsFragment;
+import in.org.eonline.eblog.Utilities.BottomNavigationViewHelper;
 import in.org.eonline.eblog.Utilities.FontClass;
 
 public class HomeActivity extends AppCompatActivity
@@ -54,7 +59,6 @@ public class HomeActivity extends AppCompatActivity
 
     FirebaseFirestore db;
     Map<String, Object> user = new HashMap<>();
-
     FrameLayout frameLayout;
     Toolbar toolbar;
     NavigationView navigationView;
@@ -70,6 +74,8 @@ public class HomeActivity extends AppCompatActivity
     private String isUserNamePresent;
 
 
+    BottomNavigationView bottomNavigationItemView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +84,62 @@ public class HomeActivity extends AppCompatActivity
         isUserRegisteredAlready = sharedpreferences.getString("UserImagePath", "false");
         isUserNamePresent = sharedpreferences.getString("UserFirstName", "false");
         initializeViews();
-
         ViewGroup myMostParentLayout = (ViewGroup) findViewById(R.id.drawer_layout);
         FontClass.getInstance(HomeActivity.this).setFontToAllChilds(myMostParentLayout);
 
-        fragmentTag="nav_home";
+        bottomNavigationItemView = (BottomNavigationView) findViewById(R.id.bnv_booking_list);
+        BottomNavigationViewHelper.removeShiftMode(bottomNavigationItemView);
+        android.support.v4.app.Fragment selectedFragment = null;
+        bottomNavigationItemView.setSelectedItemId(R.id.navigation_home);
+        bottomNavigationItemView.setSelectedItemId(R.id.navigation_home);
+        selectedFragment = ExploreFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .add(selectedFragment, "home")
+                // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                .addToBackStack(null)
+                .commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
+
+        transaction.replace(R.id.content_frame, selectedFragment);
+        transaction.commit();
+        bottomNavigationItemView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                android.support.v4.app.Fragment selectedFragment = null;
+
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        selectedFragment = ExploreFragment.newInstance();
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                        break;
+                    case R.id.navigation_friends:
+                        selectedFragment = YourFriendsFragment.newInstance();
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                        break;
+                    case R.id.navigation_newBlog:
+                        selectedFragment = CreateNewBlogFragment.newInstance();
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                        break;
+                    case R.id.navigation_Notification:
+                        selectedFragment = NotificationsFragment.newInstance();
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                        break;
+                    case R.id.navigation_profile:
+                        selectedFragment = MyProfileFragment.newInstance();
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                        break;
+                }
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, selectedFragment);
+                transaction.commit();
+                return true;
+            }
+        });
+
+
+
+        fragmentTag="nav_home";
         if (getIntent().hasExtra("update_blog")) {
             String bm = getIntent().getStringExtra("update_blog");
             String key = getIntent().getStringExtra("update_key");

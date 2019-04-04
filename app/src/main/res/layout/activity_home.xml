@@ -9,10 +9,19 @@
     tools:openDrawer="start">
 
     <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+
+    </LinearLayout>-->
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <include
             layout="@layout/toolbar"
@@ -22,9 +31,22 @@
         <FrameLayout
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:layout_above="@+id/bnv_booking_list"
             android:layout_height="match_parent">
         </FrameLayout>
-    </LinearLayout>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bnv_booking_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            app:labelVisibilityMode="labeled"
+            app:itemIconTint="@color/bnv_tab_item_foreground"
+            app:itemTextColor="@color/bnv_tab_item_foreground"
+            app:menu="@menu/navigation" />
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

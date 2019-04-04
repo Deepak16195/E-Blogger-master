@@ -4,24 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Splash"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:background="@color/white">
+    tools:context=".Activities.Splash">
 
     <ImageView
-        android:layout_width="@dimen/_220sdp"
-        android:layout_height="@dimen/_220sdp"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:layout_gravity="center"
-        android:src="@mipmap/app_logo"
         android:id="@+id/app_logo_main"
-        android:contentDescription="@string/new_app_name"/>
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_120sdp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_180sdp"
+        android:contentDescription="@string/new_app_name"
+        android:src="@drawable/logo_new" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/bodonibold"
+        android:gravity="center"
+        android:textColor="@color/sp_color"
+        android:text="  E - Blogger  "
+        android:textAllCaps="true"
+        android:textSize="@dimen/_28sdp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:fontFamily="@font/bodoniitalic"
+        android:gravity="center"
+        android:text="Earn more by writing well"
+        android:textColor="@color/sp_color"
+        android:textSize="@dimen/_16sdp" />
+
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_200sdp"
-        android:src="@drawable/splash_screen_name"
         android:layout_marginBottom="@dimen/_40sdp"
-        android:contentDescription="@string/app_name"/>
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/splash_screen_name"
+        android:visibility="gone" />
 
 </LinearLayout>

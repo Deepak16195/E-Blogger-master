@@ -25,10 +25,38 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
-        android:layout_width="221dp"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_40sdp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/_30sdp" />
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_25sdp" />
+
+    <Button
+        android:id="@+id/Click_SingnIn"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:background="@color/sp_color"
+        android:text="Sign In"
+        android:textColor="@color/white"
+        android:drawableStart="@drawable/google"
+        android:paddingStart="@dimen/_10sdp"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_28sdp"
+        android:layout_centerHorizontal="true" />
+
+   <!-- <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="201dp"
+          android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="40dp"
+        app:colorScheme="dark"
+        android:background="@color/sp_color" />-->
 
 </RelativeLayout>

@@ -137,10 +137,6 @@
     </string-array>
 
 
-
-
-
-
     <!-- OAuth 2.0 Web Application type client Id -->
     <string name="client_id">208525305220-hq4b7qa997di3qlbj3ol7dp8teo058jq.apps.googleusercontent.com</string>
 </resources>
