@@ -42,6 +42,7 @@ import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.w3c.dom.Text;
 
@@ -64,7 +65,8 @@ public class Login extends AppCompatActivity {
     public static final int RC_SIGN_IN = 101;
     ConnectivityReceiver connectivityReceiver;
     Boolean isInternetPresent = false;
-    Map<String, String> userMap = new HashMap<>();
+    Map<String, Object> userMap = new HashMap<>();
+    Map<String, String> FireBaseTokenMap = new HashMap<>();
     FirebaseFirestore db;
     private SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs_new" ;
@@ -82,7 +84,6 @@ public class Login extends AppCompatActivity {
             R.drawable.viewpagertwo,
             R.drawable.viewpagerthree,
             R.drawable.viewpagerfour,
-            R.drawable.viewpagerfour
     };
 
     @Override
@@ -110,7 +111,6 @@ public class Login extends AppCompatActivity {
         Click_SingnIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 connectivityReceiver = new ConnectivityReceiver(getApplicationContext());
                 // Initialize SDK before setContentView(Layout ID)
                 isInternetPresent = connectivityReceiver.isConnectingToInternet();
@@ -244,9 +244,12 @@ public class Login extends AppCompatActivity {
                                 userModel.setUserLName(LastName);
                                 userModel.setUserEmail(user.getEmail());
                                 userModel.setUserId(user.getEmail());
+
                                 editor = sharedpreferences.edit();
                                 editor.putString("UserIdCreated",userModel.getUserId());
                                 editor.putBoolean("isUserCreated", true);
+                                editor.putString("UserNameCreated",userModel.getUserFName() +" "+userModel.getUserLName());
+                                editor.putString("UserFirstName",userModel.getUserFName());
                                 editor.commit();
                                 addDataToUserFirebase(userModel);
                             }
@@ -274,9 +277,11 @@ public class Login extends AppCompatActivity {
     }
 
     public void addDataToUserFirebase(UserModel userModel){
-        userMap.put("UserFirstName", userModel.getUserFName());
-        userMap.put("UserLastName", userModel.getUserLName());
-        userMap.put("UserEmailId", userModel.getUserEmail());
+        userMap.put("UserFirstName", userModel.getUserFName()+"");
+        userMap.put("UserLastName", userModel.getUserLName()+"");
+        userMap.put("UserEmailId", userModel.getUserEmail()+"");
+        userMap.put("AllFollow", userModel.getAllFollow());
+        userMap.put("AllFollowing", userModel.getAllFollowing());
         db.collection("Users").document(userModel.getUserId()).set(userMap, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -291,7 +296,27 @@ public class Login extends AppCompatActivity {
                     }
                 });
 
+        String data = FirebaseInstanceId.getInstance().getToken();
+        FireBaseTokenMap.put("TokenKey", data);
+        db.collection("FcmIDs").document(userModel.getUserId()).set(FireBaseTokenMap, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(Login.this, "Data is successfully saved", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(Login.this, "Some error occured", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
+
+
+
+
 
     @Override
     public void onStart() {

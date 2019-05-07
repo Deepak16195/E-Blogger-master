@@ -1,8 +1,6 @@
-package in.org.eonline.eblog.Fragments;
+package in.org.eonline.eblog.Activities;
 
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
 
 import android.content.ComponentName;
@@ -16,7 +14,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -25,16 +22,13 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -55,15 +49,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -79,8 +68,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-import in.org.eonline.eblog.Activities.Login;
 import in.org.eonline.eblog.Models.UserModel;
 import in.org.eonline.eblog.R;
 import in.org.eonline.eblog.SQLite.DatabaseHelper;
@@ -88,11 +75,9 @@ import in.org.eonline.eblog.Utilities.CommonDialog;
 import in.org.eonline.eblog.Utilities.ConnectivityReceiver;
 import in.org.eonline.eblog.Utilities.FontClass;
 import in.org.eonline.eblog.Utilities.ImageUtility;
-import io.grpc.util.TransmitStatusRuntimeExceptionInterceptor;
 
 
 import static android.Manifest.permission.CAMERA;
-import static android.app.Activity.RESULT_OK;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.content.ContentValues.TAG;
@@ -100,7 +85,7 @@ import static android.content.ContentValues.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyProfileFragment extends Fragment {
+public class MyProfileAcivity extends AppCompatActivity {
     DatabaseHelper sqliteDatabaseHelper;
     FirebaseFirestore db;
     FirebaseStorage storage;
@@ -140,35 +125,39 @@ public class MyProfileFragment extends Fragment {
     private TextView edit_profile, cancel_profile;
 
 
-    public MyProfileFragment() {
+    public MyProfileAcivity() {
         // Required empty public constructor
     }
-    public static MyProfileFragment newInstance() {
-        MyProfileFragment fragment = new MyProfileFragment();
-        return fragment;
-    }
+
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_profile, container, false);
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //To make activity Full Screen
+        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.fragment_my_profile);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedpreferences = MyProfileAcivity.this.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         isUserRegisteredAlready = sharedpreferences.getBoolean("isUserCreated", false);
         userIdCreated = sharedpreferences.getString("UserIdCreated","document");
         //userProfileUrl = sharedpreferences.getString("userProfileUrl", "imageUrl");
 
         initializeViews();
 
-        ViewGroup myMostParentLayout = (ViewGroup) getView().findViewById(R.id.my_profile_layout);
-        FontClass.getInstance(getActivity()).setFontToAllChilds(myMostParentLayout);
+        ViewGroup myMostParentLayout = (ViewGroup)findViewById(R.id.my_profile_layout);
+        FontClass.getInstance(MyProfileAcivity.this).setFontToAllChilds(myMostParentLayout);
 
         // get instance of Firebase Firestore Database
         db = FirebaseFirestore.getInstance();
@@ -182,7 +171,7 @@ public class MyProfileFragment extends Fragment {
 
         checkUserFirebase();  //call this method only when user has already registered
 
-        sqliteDatabaseHelper = new DatabaseHelper(getActivity());
+        sqliteDatabaseHelper = new DatabaseHelper(MyProfileAcivity.this);
 
         if (savedInstanceState != null) {
             picUri = savedInstanceState.getParcelable("pic_uri");
@@ -202,11 +191,11 @@ public class MyProfileFragment extends Fragment {
         refreshMyProfile();
 
         /* if(!userProfileUrl.equals("imageUrl") && userProfileUrl != null) {
-            Glide.with(getActivity()).load(userProfileUrl).into(userProfileImage);
+            Glide.with(MyProfileAcivity.this).load(userProfileUrl).into(userProfileImage);
         } */
 
-        MobileAds.initialize(getContext(),"ca-app-pub-7293397784162310~9840078574");
-        mAdView = (AdView) getView().findViewById(R.id.myProfile_adView);
+        MobileAds.initialize(MyProfileAcivity.this,"ca-app-pub-7293397784162310~9840078574");
+        mAdView = (AdView) findViewById(R.id.myProfile_adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -257,14 +246,14 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onRefresh() {
 
-                onRefreshOperation();
+               // onRefreshOperation();
                 mySwipeRequestLayout.setRefreshing(false);
             }
         }
         );
 
 }
-    public void onRefreshOperation(){
+    /*public void onRefreshOperation(){
        // getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         Fragment frg = null;
         frg = getFragmentManager().findFragmentByTag("nav_profile");
@@ -272,7 +261,7 @@ public class MyProfileFragment extends Fragment {
         ft.detach(frg);
         ft.attach(frg);
         ft.commit();
-    }
+    }*/
 
 
 
@@ -282,30 +271,30 @@ public class MyProfileFragment extends Fragment {
             public void onClick(View view) {
                 if(sharedpreferences.getBoolean("isUserCreated", false)) {
                     userModel.setUserId(userIdCreated);
-                    connectivityReceiver = new ConnectivityReceiver(getActivity());
+                    connectivityReceiver = new ConnectivityReceiver(MyProfileAcivity.this);
                     // Initialize SDK before setContentView(Layout ID)
                     isInternetPresent = connectivityReceiver.isConnectingToInternet();
                     if (isInternetPresent) {
-                        dialog = CommonDialog.getInstance().showProgressDialog(getActivity());
+                        dialog = CommonDialog.getInstance().showProgressDialog(MyProfileAcivity.this);
                         dialog.show();
                         setUserModelAndUserMap();
                         updateDataToUserFirebase();
                     } else {
-                        CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.no_internet);
+                        CommonDialog.getInstance().showErrorDialog(MyProfileAcivity.this, R.drawable.no_internet);
                         //Toast.makeText(Login.this, "No Internet Connection, Please connect to Internet.", Toast.LENGTH_LONG).show();
                     }
 
                 } else {
-                    connectivityReceiver = new ConnectivityReceiver(getActivity());
+                    connectivityReceiver = new ConnectivityReceiver(MyProfileAcivity.this);
                     // Initialize SDK before setContentView(Layout ID)
                     isInternetPresent = connectivityReceiver.isConnectingToInternet();
                     if (isInternetPresent) {
-                        dialog = CommonDialog.getInstance().showProgressDialog(getActivity());
+                        dialog = CommonDialog.getInstance().showProgressDialog(MyProfileAcivity.this);
                         dialog.show();
                         setUserModelAndUserMap();
                         startUploadingImageToFirebase();
                     } else {
-                        CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.no_internet);
+                        CommonDialog.getInstance().showErrorDialog(MyProfileAcivity.this, R.drawable.no_internet);
                         //Toast.makeText(Login.this, "No Internet Connection, Please connect to Internet.", Toast.LENGTH_LONG).show();
                     }
 
@@ -323,15 +312,15 @@ public class MyProfileFragment extends Fragment {
 
 
     public void checkUserFirebase() {
-        connectivityReceiver = new ConnectivityReceiver(getActivity());
+        connectivityReceiver = new ConnectivityReceiver(MyProfileAcivity.this);
         // Initialize SDK before setContentView(Layout ID)
         isInternetPresent = connectivityReceiver.isConnectingToInternet();
         if (isInternetPresent) {
-            dialog = CommonDialog.getInstance().showProgressDialog(getActivity());
+            dialog = CommonDialog.getInstance().showProgressDialog(MyProfileAcivity.this);
             dialog.show();
             enterUserFirebase();
         } else {
-            CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.no_internet);
+            CommonDialog.getInstance().showErrorDialog(MyProfileAcivity.this, R.drawable.no_internet);
             //Toast.makeText(Login.this, "No Internet Connection, Please connect to Internet.", Toast.LENGTH_LONG).show();
         }
     }
@@ -341,8 +330,8 @@ public class MyProfileFragment extends Fragment {
         docRef.get().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.failure_image);
-                Toast.makeText(getContext(), "Server is down", Toast.LENGTH_SHORT).show();
+                CommonDialog.getInstance().showErrorDialog(MyProfileAcivity.this, R.drawable.failure_image);
+                Toast.makeText(MyProfileAcivity.this, "Server is down", Toast.LENGTH_SHORT).show();
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
                 }
@@ -370,15 +359,15 @@ public class MyProfileFragment extends Fragment {
                                 dialog.dismiss();
                             }
                         }
-                        //Toast.makeText(getContext(), "Data is retrieved from firebase", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(MyProfileAcivity.this, "Data is retrieved from firebase", Toast.LENGTH_LONG).show();
                     } else {
                         if (dialog != null && dialog.isShowing()) {
                             dialog.dismiss();
                         }
                     }
                 } else {
-                    CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.failure_image);
-                    Toast.makeText(getContext(), "server is down", Toast.LENGTH_SHORT).show();
+                    CommonDialog.getInstance().showErrorDialog(MyProfileAcivity.this, R.drawable.failure_image);
+                    Toast.makeText(MyProfileAcivity.this, "server is down", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             }
@@ -393,7 +382,7 @@ public class MyProfileFragment extends Fragment {
             public void onSuccess(Uri uri) {
                 // Got the download URL for 'users/me/profile.png'
                 userModel.setUserImage(uri.toString());
-                Glide.with(getActivity())
+                Glide.with(MyProfileAcivity.this)
                         .load(uri)
                         .into(userProfileImage);
                 dialog.dismiss();
@@ -402,7 +391,7 @@ public class MyProfileFragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.failure_image);
+                CommonDialog.getInstance().showErrorDialog(MyProfileAcivity.this, R.drawable.failure_image);
                 dialog.dismiss();
             }
         });
@@ -421,6 +410,10 @@ public class MyProfileFragment extends Fragment {
         userLnameEdit.setFocusable(false);
         userLnameEdit.setInputType(InputType.TYPE_NULL);
         userModel.setUserEmail(document.getString("UserEmailId"));
+
+        userModel.setAllFollow(document.get("AllFollow"));
+        userModel.setAllFollowing(document.get("AllFollowing"));
+
         userEmailIdEdit.setText(userModel.getUserEmail());
         userEmailIdEdit.setEnabled(false);
         userEmailIdEdit.setFocusable(false);
@@ -451,6 +444,7 @@ public class MyProfileFragment extends Fragment {
         userModel.setUserId(userId);
         editor = sharedpreferences.edit();
         editor.putString("UserIdCreated",userId);
+        editor.putString("UserNameCreated",userModel.getUserFName() +" "+userModel.getUserLName());
         editor.commit();
     }
 
@@ -459,7 +453,7 @@ public class MyProfileFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getContext(), "Data is successfully saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyProfileAcivity.this, "Data is successfully saved", Toast.LENGTH_SHORT).show();
                         isDataInserted = sqliteDatabaseHelper.insertUserDataInSQLite(userModel.getUserFName(),
                                 userModel.getUserLName(), userModel.getUserEmail(), userModel.getUserContact()); //this method returns boolean value
                         editor = sharedpreferences.edit();
@@ -473,8 +467,8 @@ public class MyProfileFragment extends Fragment {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.failure_image);
-                        Toast.makeText(getContext(), "Some error occured", Toast.LENGTH_SHORT).show();
+                        CommonDialog.getInstance().showErrorDialog(MyProfileAcivity.this, R.drawable.failure_image);
+                        Toast.makeText(MyProfileAcivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
                 });
@@ -487,7 +481,7 @@ public class MyProfileFragment extends Fragment {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully updated!");
-                        //Toast.makeText(getContext(), "Data is updated successfully", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MyProfileAcivity.this, "Data is updated successfully", Toast.LENGTH_SHORT).show();
                         startUploadingImageToFirebase();
                         editor.putString("UserFirstName",userFnameEdit.getText().toString());
                         editor.commit();
@@ -497,7 +491,7 @@ public class MyProfileFragment extends Fragment {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.failure_image);
+                        CommonDialog.getInstance().showErrorDialog(MyProfileAcivity.this, R.drawable.failure_image);
                         Log.w(TAG, "Error updating document", e);
                         dialog.dismiss();
 
@@ -547,8 +541,8 @@ public class MyProfileFragment extends Fragment {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
-                CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.failure_image);
-                Toast.makeText(getContext(), "File could not be uploaded", Toast.LENGTH_SHORT).show();
+                CommonDialog.getInstance().showErrorDialog(MyProfileAcivity.this, R.drawable.failure_image);
+                Toast.makeText(MyProfileAcivity.this, "File could not be uploaded", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -556,7 +550,7 @@ public class MyProfileFragment extends Fragment {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 // ...
-                //Toast.makeText(getContext(), "File successfully uploaded", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MyProfileAcivity.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
                 getimageUrl();
                     //downloadImageFromFirebaseStorage();
                 /*userProfileUrl = imagesRef.getDownloadUrl().toString();
@@ -568,7 +562,7 @@ public class MyProfileFragment extends Fragment {
     }
 
     public String saveToInternalStorage(Bitmap bitmapImage){
-        ContextWrapper cw = new ContextWrapper(getActivity());
+        ContextWrapper cw = new ContextWrapper(MyProfileAcivity.this);
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
@@ -595,7 +589,6 @@ public class MyProfileFragment extends Fragment {
 
   public void getimageUrl(){
       storageRef = storage.getReference();
-
       storageRef.child("Users/" + sharedpreferences.getString("UserIdCreated", "document")).getDownloadUrl()
               .addOnSuccessListener(new OnSuccessListener<Uri>() {
                   @Override
@@ -613,10 +606,10 @@ public class MyProfileFragment extends Fragment {
               }).addOnFailureListener(new OnFailureListener() {
                    @Override
                    public void onFailure (@NonNull Exception exception){
-                       CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.failure_image);
+                       CommonDialog.getInstance().showErrorDialog(MyProfileAcivity.this, R.drawable.failure_image);
                        dialog.dismiss();
 
-                  Toast.makeText(getActivity(), "Could not get user image url", Toast.LENGTH_LONG).show();
+                  Toast.makeText(MyProfileAcivity.this, "Could not get user image url", Toast.LENGTH_LONG).show();
                   }
               });
 
@@ -629,7 +622,7 @@ public class MyProfileFragment extends Fragment {
                   @Override
                   public void onSuccess(Void aVoid) {
                       Log.d(TAG, "DocumentSnapshot successfully updated!");
-                      //Toast.makeText(getContext(), "Image Id updated successfully", Toast.LENGTH_SHORT).show();
+                      //Toast.makeText(MyProfileAcivity.this, "Image Id updated successfully", Toast.LENGTH_SHORT).show();
                       startUploadingImageToFirebase();
                   }
               })
@@ -643,15 +636,15 @@ public class MyProfileFragment extends Fragment {
 
 
     public void initializeViews() {
-        userProfileImage = (ImageView) getView().findViewById(R.id.user_profile_image);
-        userFnameEdit = (EditText) getView().findViewById(R.id.first_name);
-        userLnameEdit = (EditText) getView().findViewById(R.id.last_name);
-        userEmailIdEdit = (EditText) getView().findViewById(R.id.email_id);
-        userContactEdit = (EditText) getView().findViewById(R.id.mobile_no);
-        submitButton = (Button) getView().findViewById(R.id.submit_button);
-        mySwipeRequestLayout =(SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh_profile);
-        edit_profile  = (TextView) getView().findViewById(R.id.user_edit);
-        cancel_profile = (TextView) getView().findViewById(R.id.user_cancel);
+        userProfileImage = (ImageView) findViewById(R.id.user_profile_image);
+        userFnameEdit = (EditText) findViewById(R.id.first_name);
+        userLnameEdit = (EditText) findViewById(R.id.last_name);
+        userEmailIdEdit = (EditText) findViewById(R.id.email_id);
+        userContactEdit = (EditText) findViewById(R.id.mobile_no);
+        submitButton = (Button) findViewById(R.id.submit_button);
+        mySwipeRequestLayout =(SwipeRefreshLayout) findViewById(R.id.swiperefresh_profile);
+        edit_profile  = (TextView) findViewById(R.id.user_edit);
+        cancel_profile = (TextView) findViewById(R.id.user_cancel);
         submitButton.setEnabled(false);
         submitButton.setAlpha((float)0.5);
         userProfileImage.setEnabled(false);
@@ -697,7 +690,7 @@ public class MyProfileFragment extends Fragment {
         Uri outputFileUri = getCaptureImageOutputUri();
 
         List<Intent> allIntents = new ArrayList<>();
-        PackageManager packageManager = getActivity().getPackageManager();
+        PackageManager packageManager = MyProfileAcivity.this.getPackageManager();
 
         // collect all camera intents
         Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -744,7 +737,7 @@ public class MyProfileFragment extends Fragment {
 
     private Uri getCaptureImageOutputUri() {
         Uri outputFileUri = null;
-        File getImage = getActivity().getExternalCacheDir();
+        File getImage = MyProfileAcivity.this.getExternalCacheDir();
         if (getImage != null) {
             outputFileUri = Uri.fromFile(new File(getImage.getPath(), "profile.png"));
         }
@@ -755,11 +748,11 @@ public class MyProfileFragment extends Fragment {
             photoFile = createImageFile();
         } catch (IOException ex) {
             // Error occurred while creating the File
-            Toast.makeText(getContext(), "Error While Capturing Image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MyProfileAcivity.this, "Error While Capturing Image", Toast.LENGTH_SHORT).show();
         }
         Uri outputFileUri = null;
         if (photoFile != null) {
-            outputFileUri = FileProvider.getUriForFile(getContext(), "in.org.eonline.eblog.fileprovider", photoFile);
+            outputFileUri = FileProvider.getUriForFile(MyProfileAcivity.this, "in.org.eonline.eblog.fileprovider", photoFile);
         }
         return outputFileUri; */
     }
@@ -770,7 +763,7 @@ public class MyProfileFragment extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         dateFormatter = df.format(ct.getTime());
         String imageFileName = "img_" + dateFormatter.format(new Date().toString());
-        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = MyProfileAcivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".png",         /* suffix */
@@ -791,7 +784,7 @@ public class MyProfileFragment extends Fragment {
 
                 bitmap = compressImage(picUri);
                 try{
-                    bitmap = rotateImageIfRequired(requireContext(), bitmap, picUri);
+                    bitmap = rotateImageIfRequired(MyProfileAcivity.this, bitmap, picUri);
                 } catch (IOException e) {
                     userProfileImage.setImageBitmap(bitmap);
                 }
@@ -799,13 +792,13 @@ public class MyProfileFragment extends Fragment {
                 userProfileImage.setImageBitmap(bitmap);
 
                 /*try {
-                    myBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), picUri);
+                    myBitmap = MediaStore.Images.Media.getBitmap(MyProfileAcivity.this.getContentResolver(), picUri);
                     //myBitmap = rotateImageIfRequired(myBitmap, picUri);
                     //myBitmap = getResizedBirotateImageIfRequiredtmap(myBitmap, 500);
                     userProfileImage.setImageBitmap(myBitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(getContext(), "Unable to set Image", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyProfileAcivity.this, "Unable to set Image", Toast.LENGTH_SHORT).show();
                 } */
             } else {
                 bitmap = (Bitmap) data.getExtras().get("data");
@@ -821,7 +814,7 @@ public class MyProfileFragment extends Fragment {
         if (!file.exists()) {
             file.mkdirs();
         }
-        sourceFile = new File(ImageUtility.getInstance().getPathFromGooglePhotosUri(getActivity(), picuri));
+        sourceFile = new File(ImageUtility.getInstance().getPathFromGooglePhotosUri(MyProfileAcivity.this, picuri));
         destFile = new File(file, "img_" + dateFormatter.format(new Date().toString() + ".png"));
 
         try {
@@ -889,13 +882,13 @@ public class MyProfileFragment extends Fragment {
         outState.putParcelable("pic_uri", picUri);
     }
 
-    @Override
+   /* @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if(savedInstanceState != null) {
             picUri = savedInstanceState.getParcelable("pic_uri");
         }
-    }
+    }*/
 
     private ArrayList<String> findUnAskedPermissions(ArrayList<String> wanted) {
         ArrayList<String> result = new ArrayList<String>();
@@ -911,7 +904,7 @@ public class MyProfileFragment extends Fragment {
     private boolean hasPermission(String permission) {
         if (canMakeSmores()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                return (getActivity().checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+                return (MyProfileAcivity.this.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
             }
         }
         return true;
@@ -960,7 +953,7 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(MyProfileAcivity.this)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)

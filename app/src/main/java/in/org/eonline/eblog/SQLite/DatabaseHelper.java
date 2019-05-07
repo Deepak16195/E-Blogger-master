@@ -29,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String SQL_REGISTER_USER =" Create TABLE " + TABLE_USER + "(" + col_1 + " TEXT, " + col_2 + " TEXT, " + col_3 + " TEXT, " + col_4 + " TEXT )" ;
     private static final String SQL_BLOG_ID =" Create TABLE " + TABLE_BLOG + "(" + blog_col_1 + " TEXT, " + blog_col_2 + " TEXT, " + blog_col_3 + " TEXT, " + blog_col_4 + " TEXT )" ;
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME,null,1);
+        super(context, DATABASE_NAME,null,2);
     }
 
     @Override
@@ -42,7 +42,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE  IF EXISTS " + SQL_REGISTER_USER);
         sqLiteDatabase.execSQL("DROP TABLE  IF EXISTS " + SQL_BLOG_ID);
+
+
     }
+
+
+
 
     public boolean insertUserDataInSQLite(String firstName, String lastName, String email , String mobileNumber){
         SQLiteDatabase db = this.getWritableDatabase();

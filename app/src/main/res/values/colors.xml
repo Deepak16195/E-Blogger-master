@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#5653ce</color>
     <color name="colorPrimaryDark">#1d17bb</color>
-    <color name="colorAccent">#ff2f17</color>
+    <color name="colorAccent">#622774</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="toolbar_color">#ff5a5a</color>
@@ -14,5 +14,7 @@
     <color name="gradient_end">#ff2f17</color>
     <color name="green">#00FF00</color>
     <color name="sp_color">#c30530</color>
-
+    <color name="sp_main_color">#622774</color>
+    <color name="skeleton">#ff000000</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/sp_main_color</color>
 </resources>

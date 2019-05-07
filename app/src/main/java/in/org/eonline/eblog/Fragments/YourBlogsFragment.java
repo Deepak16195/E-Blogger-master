@@ -78,6 +78,11 @@ public class YourBlogsFragment extends Fragment implements BlogAdapter.ClickList
         // Required empty public constructor
     }
 
+    public static YourBlogsFragment newInstance() {
+        YourBlogsFragment fragment = new YourBlogsFragment();
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,7 +94,7 @@ public class YourBlogsFragment extends Fragment implements BlogAdapter.ClickList
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        userId = sharedpreferences.getString("UserIdCreated","AdityaKamat75066406850");
+        userId = sharedpreferences.getString("UserIdCreated","Deepak9702173103");
 
         sqliteDatabaseHelper = new DatabaseHelper(getActivity());
         db= FirebaseFirestore.getInstance();
@@ -102,9 +107,9 @@ public class YourBlogsFragment extends Fragment implements BlogAdapter.ClickList
         refreshMyProfile();
 
         MobileAds.initialize(getContext(),"ca-app-pub-7722811932766421~9001519486");
-        mAdView = (AdView) getView().findViewById(R.id.yourBlogs_adView);
+       /* mAdView = (AdView) getView().findViewById(R.id.yourBlogs_adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);*/
     }
 
     public void refreshMyProfile(){

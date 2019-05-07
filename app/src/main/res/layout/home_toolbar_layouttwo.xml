@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@drawable/gradients"
+    android:elevation="0dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageView
+            android:id="@+id/ic_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:src="@drawable/ic_menu"
+            android:layout_alignParentLeft="true" />
+
+
+
+        <ImageView
+            android:id="@+id/Logo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:paddingTop="7dp"
+            android:visibility="gone"
+            android:src="@drawable/logo_new" />
+
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:id="@+id/ic_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="15dp"
+                android:visibility="invisible"
+                android:src="@drawable/ic_search" />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="15dp"
+                android:src="@drawable/ic_menu" />
+
+
+           <!-- <ImageView
+                android:id="@+id/ic_reward"
+                android:layout_width="6dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="15dp"
+                android:src="@drawable/cups1" />-->
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

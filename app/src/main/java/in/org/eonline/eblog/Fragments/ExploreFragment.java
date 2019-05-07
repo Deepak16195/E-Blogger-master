@@ -3,6 +3,7 @@ package in.org.eonline.eblog.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +18,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
@@ -63,8 +66,6 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
     UserModel userModel;
     private AdView mAdView;
     private RecyclerView popularBlogsRecyclerView;
-    private List<UserModel> userModels = new ArrayList<>();
-    private List<BlogModel> blogModels = new ArrayList<>();
     FirebaseStorage storage;
     StorageReference storageRef;
     ConnectivityReceiver connectivityReceiver;
@@ -75,17 +76,17 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
     private List<BlogModel> blogListCategorywise = new ArrayList<>();
     private int length;
     boolean[] checkedSelectedArray = new boolean[22];
-    private TextView filterBlogs;
+    public static TextView filterBlogs;
     private InterstitialAd interstitialAd;
 
     public ExploreFragment() {
         // Required empty public constructor
     }
+
     public static ExploreFragment newInstance() {
         ExploreFragment fragment = new ExploreFragment();
         return fragment;
     }
-
 
 
     @Override
@@ -105,19 +106,16 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
         db.setFirestoreSettings(settings);
         initializeViews();
         setDataFirebase();
-        loadInterstitialAd();
+        // loadInterstitialAd();
         refreshMyProfile();
 
         ViewGroup myMostParentLayout = (ViewGroup) getView().findViewById(R.id.swiperefresh_home);
         FontClass.getInstance(getActivity()).setFontToAllChilds(myMostParentLayout);
-
         // Get the instance of Firebase storage
         storage = FirebaseStorage.getInstance();
         // Create a storage reference from our app
         storageRef = storage.getReference();
-
-
-        MobileAds.initialize(getContext(),"ca-app-pub-7293397784162310~9840078574");
+        MobileAds.initialize(getContext(), "ca-app-pub-7293397784162310~9840078574");
         mAdView = (AdView) getView().findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -125,7 +123,7 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
         filterBlogs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setAlertDialog();
+                setAlertDialog(getActivity());
             }
         });
 
@@ -134,11 +132,11 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
     public void initializeViews() {
         //popularUsersRecyclerView = (RecyclerView) getView().findViewById(R.id.popular_users);
         popularBlogsRecyclerView = (RecyclerView) getView().findViewById(R.id.popular_blogs);
-        mySwipeRequestLayout=(SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh_home);
+        mySwipeRequestLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh_home);
         filterBlogs = (TextView) getView().findViewById(R.id.filter_blogs);
     }
 
-    public void refreshMyProfile(){
+    public void refreshMyProfile() {
 
         mySwipeRequestLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -149,7 +147,7 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
         });
     }
 
-    public void onRefreshOperation(){
+    public void onRefreshOperation() {
         // getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         Fragment frg = null;
         frg = getFragmentManager().findFragmentByTag("nav_home");
@@ -160,7 +158,7 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
         ft.commit();
     }
 
-    public void setDataFirebase(){
+    public void setDataFirebase() {
         connectivityReceiver = new ConnectivityReceiver(getActivity());
         // Initialize SDK before setContentView(Layout ID)
         isInternetPresent = connectivityReceiver.isConnectingToInternet();
@@ -173,9 +171,8 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
         }
     }
 
-    public void enterBlogsFirebase(){
-        CollectionReference colRef=db.collection("Blogs");
-
+    public void enterBlogsFirebase() {
+        CollectionReference colRef = db.collection("Blogs");
         colRef.orderBy("BlogTimeStamp", Query.Direction.DESCENDING).get().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -188,7 +185,7 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    int i=0;
+                    int i = 0;
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         i++;
                         if (document.exists()) {
@@ -197,7 +194,7 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
                             CommonDialog.getInstance().showErrorDialog(getContext(), R.drawable.failure_image);
                         }
                     }
-                    if(i==0) {
+                    if (i == 0) {
                         CommonDialog.getInstance().showErrorDialog(getContext(), R.drawable.no_data);
                     }
                     setPopularBlogsRecyclerView();
@@ -242,6 +239,21 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
         blogModel.setUserBlogImage2Url(doc.getString("BlogImage2Url"));
         blogModel.setUserImageUrl(doc.getString("BlogUserImageUrl"));
         blogModel.setUserId(doc.getString("UserId"));
+        if (doc.getString("Views") != null) {
+            blogModel.setViews(doc.getString("Views"));
+        }
+        if (doc.getString("BlogYoutubeUrl") != null) {
+            blogModel.setYouTubeLinks(doc.getString("BlogYoutubeUrl"));
+        }
+        if (doc.exists()) {
+            ArrayList<String> arrayList = (ArrayList<String>) doc.get("AllComments");
+            if(arrayList == null)
+            {
+                arrayList= new ArrayList<>();
+            }
+            blogModel.setAllComments(arrayList);
+        }
+
         blogModelsList.add(blogModel);
     }
 
@@ -255,28 +267,29 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
 
     public void setPopularBlogsRecyclerView() {
         popularBlogsRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         popularBlogsRecyclerView.setLayoutManager(linearLayoutManager);
-        BlogAdapter adapter = new BlogAdapter(getActivity(),blogModelsList , ExploreFragment.this);
+        BlogAdapter adapter = new BlogAdapter(getActivity(), blogModelsList, ExploreFragment.this);
         popularBlogsRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        popularBlogsRecyclerView.getRecycledViewPool().clear();
     }
 
     @Override
     public void onClickItem(BlogModel model) {
-        if(interstitialAd.isLoaded()) {
+       /* if(interstitialAd.isLoaded()) {
             interstitialAd.show();
-        }
+        }*/
         Intent intent = new Intent(getActivity(), BlogActivity.class);
         String blogmodel = (new Gson()).toJson(model);
         intent.putExtra("blog", blogmodel);
         getActivity().startActivity(intent);
     }
 
-    public void setAlertDialog() {
-        String abc[] = getActivity().getResources().getStringArray(R.array.blog_categories);
+    public void  setAlertDialog(final Context mContext) {
+        String abc[] = mContext.getResources().getStringArray(R.array.blog_categories);
         final List<String> categories = Arrays.asList(abc);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         length = checkedSelectedArray.length;
         builder.setTitle("Select your category");
         builder.setMultiChoiceItems(abc, checkedSelectedArray, new DialogInterface.OnMultiChoiceClickListener() {
@@ -285,12 +298,12 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
                 checkedSelectedArray[which] = isChecked;
             }
         });
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 blogListCategorywise.clear();
                 int size = blogModelsList.size();
-                for (int j = 0 ; j < size; j++) //it will take all the blogs from the blogModelList for comparison
+                for (int j = 0; j < size; j++) //it will take all the blogs from the blogModelList for comparison
                 {
                     for (int i = 0; i < length; i++) { // it will take all the categories from the dialog box for comparison
                         boolean checked = checkedSelectedArray[i];
@@ -304,8 +317,8 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
                         }
                     }
                 }
-                if(blogListCategorywise.size()==0) {
-                    CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.no_data);
+                if (blogListCategorywise.size() == 0) {
+                    CommonDialog.getInstance().showErrorDialog(mContext, R.drawable.no_data);
                 }
                 setBlogsRecyclerViewFromCategory();
                 if (dialog != null && dialog.isShowing()) {
@@ -314,7 +327,7 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
             }
         });
 
-        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener(){
+        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) { //logic for cancelling
 
@@ -351,11 +364,47 @@ public class ExploreFragment extends Fragment implements UserAdapter.ClickListen
         adapter.notifyDataSetChanged();
     }
 
+    private void showToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
     public void loadInterstitialAd() {
         interstitialAd = new InterstitialAd(requireContext());
         interstitialAd.setAdUnitId("ca-app-pub-7293397784162310/3163493818");
         AdRequest request = new AdRequest.Builder().build();
         interstitialAd.loadAd(request);
+        /*interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                showToast(String.format("Ad failed to load with error code %d.", errorCode));
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the interstitial ad is closed.
+            }
+        });*/
     }
 
 }

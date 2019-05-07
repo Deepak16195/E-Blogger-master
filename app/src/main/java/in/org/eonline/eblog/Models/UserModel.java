@@ -8,6 +8,32 @@ public class UserModel {
     public String userImageUrl;
     public String userEmail;
     public String userContact;
+    public Object AllFollow;
+    public Object AllFollowing;
+
+    public String getUserImageUrl() {
+        return userImageUrl;
+    }
+
+    public void setUserImageUrl(String userImageUrl) {
+        this.userImageUrl = userImageUrl;
+    }
+
+    public Object getAllFollow() {
+        return AllFollow;
+    }
+
+    public void setAllFollow(Object allFollow) {
+        AllFollow = allFollow;
+    }
+
+    public Object getAllFollowing() {
+        return AllFollowing;
+    }
+
+    public void setAllFollowing(Object allFollowing) {
+        AllFollowing = allFollowing;
+    }
 
     public String getUserId() {
         return userId;

@@ -1,7 +1,6 @@
 package in.org.eonline.eblog.Fragments;
 
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -10,15 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,7 +22,6 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -37,21 +31,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
@@ -65,7 +57,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.ServerTimestamp;
@@ -76,7 +67,6 @@ import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -90,7 +80,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import in.org.eonline.eblog.HomeActivity;
 import in.org.eonline.eblog.Models.BlogModel;
 import in.org.eonline.eblog.Models.UserModel;
 import in.org.eonline.eblog.R;
@@ -99,21 +88,19 @@ import in.org.eonline.eblog.Utilities.CommonDialog;
 import in.org.eonline.eblog.Utilities.ConnectivityReceiver;
 import in.org.eonline.eblog.Utilities.FontClass;
 import in.org.eonline.eblog.Utilities.ImageUtility;
-import in.org.eonline.eblog.Utilities.PermissionUtils;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
-import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
-import static in.org.eonline.eblog.Fragments.MyProfileFragment.MyPREFERENCES;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateNewBlogFragment extends Fragment  {
-    @ServerTimestamp Date time;
+public class CreateNewBlogFragment extends Fragment {
+    @ServerTimestamp
+    Date time;
     FirebaseFirestore db;
     StorageReference storageRef;
     FirebaseStorage storage;
@@ -122,7 +109,7 @@ public class CreateNewBlogFragment extends Fragment  {
     private EditText blogContentEdit2;
     private ImageView blogImageView1, blogImageView2;
     private LinearLayout uploadImage1, uploadImage2;
-    private EditText blogFooterEdit;
+    private EditText blogFooterEdit, blogYoutubeEdit;
     //private AdView mAdView;
     //private EditText bannerAdIdEdit;
     private Button submitButton, updateButton;
@@ -138,7 +125,7 @@ public class CreateNewBlogFragment extends Fragment  {
     UserModel userModel;
     Map<String, Object> blogMap = new HashMap<>();
     private SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs_new" ;
+    public static final String MyPREFERENCES = "MyPrefs_new";
     private String userId;
     private String blogId;
     public String blogIdBase;
@@ -173,10 +160,11 @@ public class CreateNewBlogFragment extends Fragment  {
     private final static int ALL_PERMISSIONS_RESULT = 107;
     private final static int ALL_WRITE_EXTERNAL_STORAGE = 108;
     private final static int ALL_READ_EXTERNAL_STORAGE = 109;
-
+    Map<String, Object> NotifactionblogMap = new HashMap<>();
     public CreateNewBlogFragment() {
         // Required empty public constructor
     }
+
     public static CreateNewBlogFragment newInstance() {
         CreateNewBlogFragment fragment = new CreateNewBlogFragment();
         return fragment;
@@ -189,13 +177,12 @@ public class CreateNewBlogFragment extends Fragment  {
 
         try {
             Bundle bundle = getArguments();
-            if(bundle != null) {
+            if (bundle != null) {
                 String model = bundle.getString("update_blog");
                 updateBlog = bundle.getString("update_key");
                 blogModelToBeUpdated = new Gson().fromJson(model, BlogModel.class);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         // Inflate the layout for this fragment
@@ -219,14 +206,14 @@ public class CreateNewBlogFragment extends Fragment  {
 
         storage = FirebaseStorage.getInstance();
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        userId = sharedpreferences.getString("UserIdCreated","AdityaKamat75066406850");
+        userId = sharedpreferences.getString("UserIdCreated", "Deepak9702173103");
         blogmodel.setUserId(userId);
         blogModelToBeUpdated.setUserId(userId);
         blogIdBase = userId + "_0";
-        blogId = sharedpreferences.getString("blogId_new",blogIdBase);
+        blogId = sharedpreferences.getString("blogId_new", blogIdBase);
 
-        if((sharedpreferences.getString("blogId_new", blogIdBase) == null || sharedpreferences.getString("blogId_new", blogIdBase).equalsIgnoreCase(blogIdBase))
-            && !"blog_update".equalsIgnoreCase(updateBlog)) {
+        if ((sharedpreferences.getString("blogId_new", blogIdBase) == null || sharedpreferences.getString("blogId_new", blogIdBase).equalsIgnoreCase(blogIdBase))
+                && !"blog_update".equalsIgnoreCase(updateBlog)) {
             // This executes when user has uninstalled app and re-installed
             // after re-installing, shared pref may be null or it will be same as userId_0 so we have to get latest blog Id
             getBlogIdNewFromUserCollection();
@@ -244,14 +231,13 @@ public class CreateNewBlogFragment extends Fragment  {
                 isInternetPresent = connectivityReceiver.isConnectingToInternet();
                 if (isInternetPresent) {
                     submitButtonLogic();
-                }
-                else {
+                } else {
                     CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.no_internet);
                 }
             }
         });
 
-        cancelImage1.setOnClickListener(new View.OnClickListener(){
+        cancelImage1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 blogImageView1.setImageBitmap(null);
@@ -260,7 +246,7 @@ public class CreateNewBlogFragment extends Fragment  {
             }
         });
 
-        cancelImage2.setOnClickListener(new View.OnClickListener(){
+        cancelImage2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 blogImageView2.setImageBitmap(null);
@@ -269,7 +255,7 @@ public class CreateNewBlogFragment extends Fragment  {
             }
         });
 
-        MobileAds.initialize(getContext(),"ca-app-pub-7293397784162310~9840078574");
+        MobileAds.initialize(getContext(), "ca-app-pub-7293397784162310~9840078574");
         mAdView = (AdView) getView().findViewById(R.id.createNewBlog_adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -278,11 +264,11 @@ public class CreateNewBlogFragment extends Fragment  {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         dateFormatter = df.format(ct.getTime());
 
-        if("blog_update".equalsIgnoreCase(updateBlog)) {
+        if ("blog_update".equalsIgnoreCase(updateBlog)) {
             setUpdateBlogData();
         }
 
-        loadInterstitialAd();
+       // loadInterstitialAd();
 
         allowPermissions();
     }
@@ -304,20 +290,25 @@ public class CreateNewBlogFragment extends Fragment  {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        if(document.getString("BlogIdNew") != null) {
+                        if (document.getString("BlogIdNew") != null) {
                             //if BlogIdNew is present means user's latest blog id is stored in db
                             blogId = document.getString("BlogIdNew");
                             editor = sharedpreferences.edit();
-                            editor.putString("blogId_new",blogId);
+                            editor.putString("blogId_new", blogId);
                             editor.apply();
                         } else {
                             //if BlogIdNew is null means user's latest blog id is never stored in db
                             // so write logic to find out which blog id of user is latest
                             findBlogIdNewFromAllBlogs();
                         }
-                        if(document.getString("UserBannerId") == null) {
+                        if (document.getString("UserBannerId") == null) {
                             //Toast.makeText(getContext(), "Please enter AdMob Banner Id in Monetization Section of application in order to monetize blog and earn", Toast.LENGTH_LONG).show();
-                            createDialog();
+                            try {
+                                createDialog();
+                            } catch (Exception e) {
+
+                            }
+
                         }
                     } else {
                         if (dialog != null && dialog.isShowing()) {
@@ -354,23 +345,23 @@ public class CreateNewBlogFragment extends Fragment  {
                             blogIds.add(document.getString("BlogId"));
                         }
                     }
-                    for(int i = 0; i< blogIds.size(); i++) {
+                    for (int i = 0; i < blogIds.size(); i++) {
                         String id = blogIds.get(i);
                         int number = Integer.parseInt(id.substring(id.lastIndexOf("_") + 1));
                         idNumbers.add(number);
                     }
                     int max = 0;
-                    if(idNumbers.size() > 0) {
-                         max =  idNumbers.get(0);
+                    if (idNumbers.size() > 0) {
+                        max = idNumbers.get(0);
                     }
-                    for(int j = 0; j < idNumbers.size(); j++) {
-                        if(max < idNumbers.get(j)) {
+                    for (int j = 0; j < idNumbers.size(); j++) {
+                        if (max < idNumbers.get(j)) {
                             max = idNumbers.get(j);
                         }
                     }
                     blogId = userId + "_" + max;
                     editor = sharedpreferences.edit();
-                    editor.putString("blogId_new",blogId);
+                    editor.putString("blogId_new", blogId);
                     editor.apply();
                 } else {
                     if (dialog != null && dialog.isShowing()) {
@@ -381,18 +372,20 @@ public class CreateNewBlogFragment extends Fragment  {
         });
     }
 
+    private void showToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
     public void setUpdateBlogData() {
         submitButton.setVisibility(View.GONE);
         updateButton.setVisibility(View.VISIBLE);
-
         blogId = blogModelToBeUpdated.getBlogId();
-
         blogHeaderEdit.setText(blogModelToBeUpdated.getBlogHeader());
         blogContentEdit1.setText(blogModelToBeUpdated.getBlogContent1());
         blogContentEdit2.setText(blogModelToBeUpdated.getBlogContent2());
         blogFooterEdit.setText(blogModelToBeUpdated.getBlogFooter());
-
-        if(blogModelToBeUpdated.getUserBlogImage1Url() != null) {
+        blogYoutubeEdit.setText(blogModelToBeUpdated.getYouTubeLinks());
+        if (blogModelToBeUpdated.getUserBlogImage1Url() != null) {
             blogImageView1.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(blogModelToBeUpdated.getUserBlogImage1Url())
@@ -404,7 +397,7 @@ public class CreateNewBlogFragment extends Fragment  {
             cancelImage1.setVisibility(View.GONE);
         }
 
-        if(blogModelToBeUpdated.getUserBlogImage2Url() != null) {
+        if (blogModelToBeUpdated.getUserBlogImage2Url() != null) {
             blogImageView2.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(blogModelToBeUpdated.getUserBlogImage2Url())
@@ -415,19 +408,18 @@ public class CreateNewBlogFragment extends Fragment  {
             uploadImage2.setVisibility(View.VISIBLE);
             cancelImage2.setVisibility(View.GONE);
         }
-
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setVisibilityGone();
                 boolean isValidated = validateData();
-                if(isValidated) {
+                if (isValidated) {
                     dialog = CommonDialog.getInstance().showProgressDialog(getActivity());
                     dialog.show();
                     isImageOnePresent = hasImage(blogImageView1);
                     isImageTwoPresent = hasImage(blogImageView2);
 
-                    if(isImageOnePresent && isImageTwoPresent) {
+                    if (isImageOnePresent && isImageTwoPresent) {
                         uploadBlogImagesToFirebaseStorage();
                     } else if (!isImageOnePresent && !isImageTwoPresent) {
                         blogModelToBeUpdated.setUserBlogImage1Url(null);
@@ -435,11 +427,11 @@ public class CreateNewBlogFragment extends Fragment  {
                         blogMap.put("BlogImage1Url", blogModelToBeUpdated.getUserBlogImage1Url());
                         blogMap.put("BlogImage2Url", blogModelToBeUpdated.getUserBlogImage2Url());
                         getUserBannerIdAndUserImageUrl();
-                    } else if(isImageOnePresent && !isImageTwoPresent) {
+                    } else if (isImageOnePresent && !isImageTwoPresent) {
                         blogModelToBeUpdated.setUserBlogImage2Url(null);
                         blogMap.put("BlogImage2Url", blogModelToBeUpdated.getUserBlogImage2Url());
                         uploadBlogImagesToFirebaseStorage();
-                    } else if(!isImageOnePresent && isImageTwoPresent) {
+                    } else if (!isImageOnePresent && isImageTwoPresent) {
                         blogModelToBeUpdated.setUserBlogImage1Url(null);
                         blogMap.put("BlogImage1Url", blogModelToBeUpdated.getUserBlogImage1Url());
                         uploadImage2();
@@ -449,24 +441,24 @@ public class CreateNewBlogFragment extends Fragment  {
         });
     }
 
-    public void submitButtonLogic(){
+    public void submitButtonLogic() {
         setVisibilityGone();
         //upload blog images to firebase storage first, then get the download url of images to store in Users & Blogs collection
         boolean isValidated = validateData();
-        if(isValidated) {
+        if (isValidated) {
             dialog = CommonDialog.getInstance().showProgressDialog(getActivity());
             dialog.show();
             createBlogId();
             isImageOnePresent = hasImage(blogImageView1);
             isImageTwoPresent = hasImage(blogImageView2);
 
-            if(isImageOnePresent && isImageTwoPresent) {
+            if (isImageOnePresent && isImageTwoPresent) {
                 uploadBlogImagesToFirebaseStorage();
             } else if (!isImageOnePresent && !isImageTwoPresent) {
                 getUserBannerIdAndUserImageUrl();
-            } else if(isImageOnePresent && !isImageTwoPresent) {
+            } else if (isImageOnePresent && !isImageTwoPresent) {
                 uploadBlogImagesToFirebaseStorage();
-            } else if(!isImageOnePresent && isImageTwoPresent) {
+            } else if (!isImageOnePresent && isImageTwoPresent) {
                 uploadImage2();
             }
         }
@@ -509,8 +501,7 @@ public class CreateNewBlogFragment extends Fragment  {
                 if (isInternetPresent) {
                     startActivityForResult(getPickImageChooserIntent(), 201);
                     //allowPermissions();
-                }
-                else {
+                } else {
                     CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.no_internet);
                 }
             }
@@ -524,8 +515,7 @@ public class CreateNewBlogFragment extends Fragment  {
                 if (isInternetPresent) {
                     startActivityForResult(getPickImageChooserIntent(), 202);
                     //allowPermissions();
-                }
-                else {
+                } else {
                     CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.no_internet);
                 }
 
@@ -534,7 +524,7 @@ public class CreateNewBlogFragment extends Fragment  {
     }
 
     public void addBlogToSQLite() {
-        Boolean blogIdInserted =  sqliteDatabaseHelper.insertBlogDataInSQLite(blogId,blogmodel.getBlogHeader(),blogmodel.getBlogContent1(),blogmodel.getBlogFooter());
+        Boolean blogIdInserted = sqliteDatabaseHelper.insertBlogDataInSQLite(blogId, blogmodel.getBlogHeader(), blogmodel.getBlogContent1(), blogmodel.getBlogFooter());
         if (blogIdInserted) {
             //Toast.makeText(getContext(), "BlogId inserted properly in SQLite", Toast.LENGTH_SHORT).show();
         } else {
@@ -570,7 +560,7 @@ public class CreateNewBlogFragment extends Fragment  {
                             dialog.dismiss();
                         }
                         clearEditText();
-                        if(interstitialAd.isLoaded()) {
+                        if (interstitialAd.isLoaded()) {
                             interstitialAd.show();
                         }
                     }
@@ -583,6 +573,21 @@ public class CreateNewBlogFragment extends Fragment  {
                         if (dialog != null && dialog.isShowing()) {
                             dialog.dismiss();
                         }
+                    }
+                });
+        NotifactionblogMap.put("BlogId",blogmodel.getBlogId());
+        NotifactionblogMap.put("Userid",userId);
+        NotifactionblogMap.put("Views", false);
+        db.collection("Notification").document(userId).set(NotifactionblogMap, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getActivity(), "New Blog is created in Users collection", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
                     }
                 });
     }
@@ -617,9 +622,12 @@ public class CreateNewBlogFragment extends Fragment  {
                             dialog.dismiss();
                         }
                         clearEditText();
-                        if(interstitialAd.isLoaded()) {
+
+                        openFragment(new ExploreFragment());
+
+                       /* if (interstitialAd.isLoaded()) {
                             interstitialAd.show();
-                        }
+                        }*/
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -632,22 +640,22 @@ public class CreateNewBlogFragment extends Fragment  {
                         }
                     }
                 });
+
+
     }
 
-    public void clearEditText(){
+    public void clearEditText() {
         blogHeaderEdit.setText("");
         blogContentEdit1.setText("");
         blogContentEdit2.setText("");
         blogFooterEdit.setText("");
-
+        blogYoutubeEdit.setText("");
         blogImageView1.setImageBitmap(null);
         uploadImage1.setVisibility(View.VISIBLE);
         cancelImage1.setVisibility(View.GONE);
-
         blogImageView2.setImageBitmap(null);
         uploadImage2.setVisibility(View.VISIBLE);
         cancelImage2.setVisibility(View.GONE);
-
         submitButton.setVisibility(View.VISIBLE);
         updateButton.setVisibility(View.GONE);
     }
@@ -657,31 +665,33 @@ public class CreateNewBlogFragment extends Fragment  {
         blogContentEdit1 = (EditText) getView().findViewById(R.id.blog_content1);
         blogContentEdit2 = (EditText) getView().findViewById(R.id.blog_content2);
         blogImageView1 = (ImageView) getView().findViewById(R.id.blog_image_1);
-        blogImageView2= (ImageView) getView().findViewById(R.id.blog_image_2);
+        blogImageView2 = (ImageView) getView().findViewById(R.id.blog_image_2);
         uploadImage1 = (LinearLayout) getView().findViewById(R.id.upload_image_1);
         uploadImage1.setVisibility(View.VISIBLE);
         uploadImage2 = (LinearLayout) getView().findViewById(R.id.upload_image_2);
         uploadImage2.setVisibility(View.VISIBLE);
         blogFooterEdit = (EditText) getView().findViewById(R.id.blog_footer);
+        blogYoutubeEdit = (EditText) getView().findViewById(R.id.blogYoutubeEdit);
         //mAdView = (AdView) getView().findViewById(R.id.adView_user_ad);
         submitButton = (Button) getView().findViewById(R.id.submit_blog_button);
         //bannerAdIdEdit = (EditText) getView().findViewById(R.id.adview_user_id);
         spinner = (Spinner) getView().findViewById(R.id.spinner_category);
         errorHeader = (TextView) getView().findViewById(R.id.error_header);
-        errorContent1=(TextView) getView().findViewById(R.id.error_content1);
-        errorContent2=(TextView) getView().findViewById(R.id.error_content2);
-        errorFooter=(TextView) getView().findViewById(R.id.error_footer);
-        errorImage=(ImageView) getView().findViewById(R.id.error_image);
-        errorImage1=(ImageView) getView().findViewById(R.id.error_image1);
-        errorImage2=(ImageView) getView().findViewById(R.id.error_image2);
-        errorImage3=(ImageView) getView().findViewById(R.id.error_image3);
+        errorContent1 = (TextView) getView().findViewById(R.id.error_content1);
+        errorContent2 = (TextView) getView().findViewById(R.id.error_content2);
+        errorFooter = (TextView) getView().findViewById(R.id.error_footer);
+        errorImage = (ImageView) getView().findViewById(R.id.error_image);
+        errorImage1 = (ImageView) getView().findViewById(R.id.error_image1);
+        errorImage2 = (ImageView) getView().findViewById(R.id.error_image2);
+        errorImage3 = (ImageView) getView().findViewById(R.id.error_image3);
         cancelImage1 = (ImageView) getView().findViewById(R.id.submit_cancel_image1);
         cancelImage2 = (ImageView) getView().findViewById(R.id.submit_cancel_image2);
         updateButton = (Button) getView().findViewById(R.id.update_blog_button);
+
         setVisibilityGone();
     }
 
-    public void setVisibilityGone(){
+    public void setVisibilityGone() {
         errorImage.setVisibility(View.GONE);
         errorImage1.setVisibility(View.GONE);
         errorImage2.setVisibility(View.GONE);
@@ -692,7 +702,7 @@ public class CreateNewBlogFragment extends Fragment  {
         errorFooter.setVisibility(View.GONE);
     }
 
-    public void getUserBannerIdAndUserImageUrl(){
+    public void getUserBannerIdAndUserImageUrl() {
         DocumentReference docRef = db.collection("Users").document(userId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -710,15 +720,14 @@ public class CreateNewBlogFragment extends Fragment  {
                             blogModelToBeUpdated.setBannerAdMobId(bannerId);
                             blogModelToBeUpdated.setUserImageUrl(userImageUrl);
                             blogModelToBeUpdated.setBlogUser(userName);
-                        }
-                        catch(NullPointerException e) {
+                        } catch (NullPointerException e) {
                             //Toast.makeText(getActivity(), "Please enter banner ID", Toast.LENGTH_SHORT).show();
                             if (dialog != null && dialog.isShowing()) {
                                 dialog.dismiss();
                             }
                         }
 
-                        if("blog_update".equalsIgnoreCase(updateBlog)) {
+                        if ("blog_update".equalsIgnoreCase(updateBlog)) {
                             setUpdateBlogModelAndMap();
                             updateData();
                         } else {
@@ -808,26 +817,32 @@ public class CreateNewBlogFragment extends Fragment  {
             }
         });
     }
-    public void setBlogModelAndMap(){
+
+    public void setBlogModelAndMap() {
         blogmodel.setBlogHeader(blogHeaderEdit.getText().toString());
         blogmodel.setBlogContent1(blogContentEdit1.getText().toString());
         blogmodel.setBlogContent2(blogContentEdit2.getText().toString());
         blogmodel.setBlogFooter(blogFooterEdit.getText().toString());
+        blogmodel.setYouTubeLinks(blogYoutubeEdit.getText().toString());
         blogmodel.setBlogLikes("0");
+        blogmodel.setViews("0");
         blogmodel.setBlogTimeStamp(FieldValue.serverTimestamp().toString());
-        blogMap.put("BlogHeader",blogmodel.getBlogHeader());
-        blogMap.put("BlogContent1",blogmodel.getBlogContent1());
-        blogMap.put("BlogContent2",blogmodel.getBlogContent2());
+        blogMap.put("BlogHeader", blogmodel.getBlogHeader());
+        blogMap.put("BlogContent1", blogmodel.getBlogContent1());
+        blogMap.put("BlogContent2", blogmodel.getBlogContent2());
         blogMap.put("BlogFooter", blogmodel.getBlogFooter());
         blogMap.put("BlogCategory", blogmodel.getBlogCategory());
-        blogMap.put("UserId",userId);
+        blogMap.put("UserId", userId);
         blogMap.put("BlogLikes", String.valueOf(blogmodel.getBlogLikes()));
-        blogMap.put("BlogUserBannerId",blogmodel.getBannerAdMobId());
-        blogMap.put("BlogUserImageUrl",blogmodel.getUserImageUrl());
+        blogMap.put("BlogUserBannerId", blogmodel.getBannerAdMobId());
+        blogMap.put("BlogUserImageUrl", blogmodel.getUserImageUrl());
         blogMap.put("BlogUser", blogmodel.getBlogUser());
-        blogMap.put("BlogImage1Url",blogmodel.getUserBlogImage1Url());
-        blogMap.put("BlogImage2Url",blogmodel.getUserBlogImage2Url());
+        blogMap.put("BlogImage1Url", blogmodel.getUserBlogImage1Url());
+        blogMap.put("BlogImage2Url", blogmodel.getUserBlogImage2Url());
+        blogMap.put("BlogYoutubeUrl", blogmodel.getYouTubeLinks());
         blogMap.put("BlogTimeStamp", FieldValue.serverTimestamp());
+        blogMap.put("AllComments",blogmodel.getAllComments() );
+        blogMap.put("Views", blogmodel.getViews());
     }
 
     public void setUpdateBlogModelAndMap() {
@@ -835,33 +850,37 @@ public class CreateNewBlogFragment extends Fragment  {
         blogModelToBeUpdated.setBlogContent1(blogContentEdit1.getText().toString());
         blogModelToBeUpdated.setBlogContent2(blogContentEdit2.getText().toString());
         blogModelToBeUpdated.setBlogFooter(blogFooterEdit.getText().toString());
-        blogMap.put("BlogHeader",blogModelToBeUpdated.getBlogHeader());
-        blogMap.put("BlogContent1",blogModelToBeUpdated.getBlogContent1());
-        blogMap.put("BlogContent2",blogModelToBeUpdated.getBlogContent2());
+        blogModelToBeUpdated.setYouTubeLinks(blogYoutubeEdit.getText().toString());
+        blogMap.put("BlogHeader", blogModelToBeUpdated.getBlogHeader());
+        blogMap.put("BlogContent1", blogModelToBeUpdated.getBlogContent1());
+        blogMap.put("BlogContent2", blogModelToBeUpdated.getBlogContent2());
         blogMap.put("BlogFooter", blogModelToBeUpdated.getBlogFooter());
         blogMap.put("BlogCategory", blogModelToBeUpdated.getBlogCategory());
-        blogMap.put("UserId",userId);
+        blogMap.put("UserId", userId);
+        blogMap.put("Views", blogModelToBeUpdated.getViews());
         blogMap.put("BlogLikes", String.valueOf(blogModelToBeUpdated.getBlogLikes()));
-        blogMap.put("BlogUserBannerId",blogModelToBeUpdated.getBannerAdMobId());
-        blogMap.put("BlogUserImageUrl",blogModelToBeUpdated.getUserImageUrl());
+        blogMap.put("BlogUserBannerId", blogModelToBeUpdated.getBannerAdMobId());
+        blogMap.put("BlogUserImageUrl", blogModelToBeUpdated.getUserImageUrl());
         blogMap.put("BlogUser", blogModelToBeUpdated.getBlogUser());
-        blogMap.put("BlogImage1Url",blogModelToBeUpdated.getUserBlogImage1Url());
-        blogMap.put("BlogImage2Url",blogModelToBeUpdated.getUserBlogImage2Url());
+        blogMap.put("BlogYoutubeUrl", blogModelToBeUpdated.getYouTubeLinks());
+        blogMap.put("BlogImage1Url", blogModelToBeUpdated.getUserBlogImage1Url());
+        blogMap.put("BlogImage2Url", blogModelToBeUpdated.getUserBlogImage2Url());
+        blogMap.put("AllComments", blogModelToBeUpdated.getAllComments());
     }
 
     public String createBlogId() {
         // creates blog Id
-        String  localblogId = blogId.substring(blogId.length()-1,  blogId.length() );
-        int integer = Integer.parseInt(localblogId)+ 1;
+        String localblogId = blogId.substring(blogId.length() - 1, blogId.length());
+        int integer = Integer.parseInt(localblogId) + 1;
         localblogId = Integer.toString(integer);
         blogId = blogId.substring(0, blogId.length() - 1);
         blogId = blogId + localblogId;
 
         blogmodel.setBlogId(blogId);
         blogModelToBeUpdated.setBlogId(blogId);
-        blogMap.put("BlogId",blogmodel.getBlogId());
+        blogMap.put("BlogId", blogmodel.getBlogId());
         editor = sharedpreferences.edit();
-        editor.putString("blogId_new",blogId);
+        editor.putString("blogId_new", blogId);
         editor.apply();
         saveNewBlogIdToUserCollection(blogId);
         return blogId;
@@ -870,13 +889,11 @@ public class CreateNewBlogFragment extends Fragment  {
     public void saveNewBlogIdToUserCollection(String blogid) {
         Map<String, Object> data = new HashMap<>();
         data.put("BlogIdNew", blogid);
-
         db.collection("Users").document(userId)
                 .set(data, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -974,7 +991,7 @@ public class CreateNewBlogFragment extends Fragment  {
 
                 bitmap = compressImage(picUri);
 
-                try{
+                try {
                     bitmap = rotateImageIfRequired(requireContext(), bitmap, picUri);
                 } catch (IOException e) {
                     blogImageView1.setVisibility(View.VISIBLE);
@@ -1013,8 +1030,8 @@ public class CreateNewBlogFragment extends Fragment  {
 
                 bitmap = compressImage(picUri);
 
-                try{
-                   bitmap = rotateImageIfRequired(requireContext(), bitmap, picUri);
+                try {
+                    bitmap = rotateImageIfRequired(requireContext(), bitmap, picUri);
                 } catch (IOException e) {
                     blogImageView2.setVisibility(View.VISIBLE);
                     blogImageView2.setImageBitmap(bitmap);
@@ -1110,7 +1127,7 @@ public class CreateNewBlogFragment extends Fragment  {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 //Toast.makeText(getContext(), "File 1 successfully uploaded", Toast.LENGTH_SHORT).show();
                 //getimageUrl();
-                if(isImageTwoPresent) {
+                if (isImageTwoPresent) {
                     uploadImage2();
                 } else {
                     getimageUrl();
@@ -1146,7 +1163,7 @@ public class CreateNewBlogFragment extends Fragment  {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 //Toast.makeText(getContext(), "File 2 successfully uploaded", Toast.LENGTH_SHORT).show();
-                if(isImageOnePresent) {
+                if (isImageOnePresent) {
                     getimageUrl();
                 } else {
                     getImageUrl2();
@@ -1155,7 +1172,7 @@ public class CreateNewBlogFragment extends Fragment  {
         });
     }
 
-    public void getimageUrl(){
+    public void getimageUrl() {
         storageRef = storage.getReference();
         String imageRef1 = "Blogs/" + sharedpreferences.getString("UserIdCreated", "document") + "/" + blogId + "img1";
 
@@ -1169,7 +1186,7 @@ public class CreateNewBlogFragment extends Fragment  {
                             blogmodel.setUserBlogImage1Url(downloadUrl);
                             blogModelToBeUpdated.setUserBlogImage1Url(downloadUrl);
                         }
-                        if(isImageTwoPresent) {
+                        if (isImageTwoPresent) {
                             getImageUrl2();
                         } else {
                             getUserBannerIdAndUserImageUrl();
@@ -1177,7 +1194,7 @@ public class CreateNewBlogFragment extends Fragment  {
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onFailure (@NonNull Exception exception){
+            public void onFailure(@NonNull Exception exception) {
                 //Toast.makeText(getContext(), "Blog could not be created. Please try again.", Toast.LENGTH_LONG).show();
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
@@ -1204,7 +1221,7 @@ public class CreateNewBlogFragment extends Fragment  {
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onFailure (@NonNull Exception exception){
+            public void onFailure(@NonNull Exception exception) {
                 //Toast.makeText(getContext(), "Blog could not be created. Please try again.", Toast.LENGTH_LONG).show();
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
@@ -1218,7 +1235,7 @@ public class CreateNewBlogFragment extends Fragment  {
         boolean hasImage = (drawable != null);
 
         if (hasImage && (drawable instanceof BitmapDrawable)) {
-            hasImage = ((BitmapDrawable)drawable).getBitmap() != null;
+            hasImage = ((BitmapDrawable) drawable).getBitmap() != null;
         }
 
         return hasImage;
@@ -1229,6 +1246,37 @@ public class CreateNewBlogFragment extends Fragment  {
         interstitialAd.setAdUnitId("ca-app-pub-7293397784162310/2566340475");
         AdRequest request = new AdRequest.Builder().build();
         interstitialAd.loadAd(request);
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the interstitial ad is closed.
+            }
+        });
     }
 
 
@@ -1364,7 +1412,7 @@ public class CreateNewBlogFragment extends Fragment  {
             }
         });
 
-        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

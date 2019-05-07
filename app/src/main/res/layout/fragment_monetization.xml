@@ -1,136 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swiperefresh_monetize"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.MonetizationFragment">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Fragments.MonetizationFragment"
-    android:layout_marginTop="@dimen/_50sdp"
-    android:id="@+id/monetization_root_relative_layout">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:orientation="vertical"
-        android:id="@+id/enter_admob_linear">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/monetization_root_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_50sdp"
+        tools:context=".Fragments.MonetizationFragment">
+
+        <LinearLayout
+            android:id="@+id/enter_admob_linear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/admob_logo" />
+
+                <TextView
+                    android:id="@+id/monetization_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/user_profile_image"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:drawableStart="@drawable/ic_edit_black_24dp"
+                    android:drawableTint="@color/sp_main_color"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:text="Edit"
+                    android:textColor="@color/sp_main_color"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/monetization_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/user_profile_image"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:drawableStart="@drawable/ic_cancel_black_24dp"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:text="Cancel"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/bodonibold"
+                android:text="@string/admob_id_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sdp" />
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:textColorHint="@color/sp_main_color"
+                app:boxStrokeColor="@color/sp_main_color">
+
+                <EditText
+                    android:id="@+id/admob_ad_unit_id"
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/montserratregular"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/admob_id_hint"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_10sdp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="@string/test_ad_id"
+                android:textSize="@dimen/_10sdp" />
+
+            <Button
+                android:id="@+id/admob_ad_unit_id_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:background="@drawable/button_corner"
+                android:paddingStart="@dimen/_25sdp"
+                android:paddingEnd="@dimen/_25sdp"
+                android:text="@string/submit_button"
+                android:fontFamily="@font/montserratmedium"
+                android:textAllCaps="true"
+                android:textColor="#fff"
+                android:textSize="@dimen/_16sdp" />
+
+            <TextView
+                android:id="@+id/open_admob_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="Don't have Google AdMob Banner Ad Unit ID?click here."
+                android:textColor="@color/colorPrimary"
+                android:textColorLink="@color/colorPrimary" />
+
+        </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/adMobView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp">
-
-            <ImageView
-                android:layout_width="@dimen/_60sdp"
-                android:layout_height="@dimen/_60sdp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/admob_logo" />
-
-            <TextView
-                android:id="@+id/monetization_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/user_profile_image"
-                android:text="Edit"
-                android:drawableStart="@drawable/ic_edit_black_24dp"
-                android:drawablePadding="@dimen/_4sdp"
-                android:textSize="@dimen/_14sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/monetization_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/user_profile_image"
-                android:text="Cancel"
-                android:drawableStart="@drawable/ic_cancel_black_24dp"
-                android:drawablePadding="@dimen/_4sdp"
-                android:textSize="@dimen/_14sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:visibility="gone"/>
-
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="@string/admob_id_label"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_16sdp" />
-
-        <EditText
-            android:id="@+id/admob_ad_unit_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:hint="@string/admob_id_hint"
-            android:background="@drawable/app_edittext_drawable"
-            android:padding="@dimen/_10sdp"
-            android:textSize="@dimen/_12sdp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:text="@string/test_ad_id"
-            android:textSize="@dimen/_10sdp"/>
-
-        <Button
-            android:id="@+id/admob_ad_unit_id_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_40sdp"
-            android:text="@string/submit_button"
-            android:background="@drawable/gradient_corner"
-            android:paddingStart="@dimen/_25sdp"
-            android:paddingEnd="@dimen/_25sdp"
-            android:textColor="#fff"
-            android:textAllCaps="false"
-            android:textSize="@dimen/_16sdp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:id="@+id/open_admob_link"
-            android:textColor="@color/colorPrimary"
-            android:textColorLink="@color/colorPrimary"
-            android:text="If you do not have Google AdMob Banner Ad Unit ID then please click here." />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/adMobView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/enter_admob_linear"/>
+            android:layout_below="@+id/enter_admob_linear"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

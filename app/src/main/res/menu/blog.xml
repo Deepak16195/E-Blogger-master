@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_heart"
+        android:icon="@drawable/heart"
+        android:title=""
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_comment"
+        android:icon="@drawable/comment"
+        android:title=""
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_add_contact"
+        android:icon="@drawable/share_variant"
+        android:title=""
+        app:showAsAction="always" />
+
+</menu>
+

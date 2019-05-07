@@ -6,60 +6,59 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
+            android:checked="true"
             android:icon="@drawable/ic_home_black_24dp"
-            android:title="Home"
-            android:checked="true"/>
+            android:title="Home" />
         <item
             android:id="@+id/nav_new_blog"
             android:icon="@drawable/ic_description_black_24dp"
-            android:title="Create New Blog" />
+            android:title="New Blog" />
         <item
             android:id="@+id/nav_blog_history"
             android:icon="@drawable/ic_library_books_black_24dp"
-            android:title="Your Blogs" />
+            android:title="My Blogs" />
         <item
             android:id="@+id/nav_monetize"
             android:icon="@drawable/ic_graph"
             android:title="Monetization" />
-       <!-- <item
-            android:id="@+id/nav_task"
-            android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="Tasks" /> -->
+        <!-- <item
+             android:id="@+id/nav_task"
+             android:icon="@drawable/ic_playlist_add_check_black_24dp"
+             android:title="Tasks" /> -->
 
 
     </group>
 
     <group android:checkableBehavior="single">
-            <item
-                android:id="@+id/nav_profile"
-                android:icon="@drawable/ic_person_add_black_24dp"
-                android:title="My Profile" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_person_add_black_24dp"
+            android:title="My Profile" />
 
         <!-- <item
             android:id="@+id/nav_task"
             android:icon="@drawable/ic_menu_send"
             android:title="Category" /> -->
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_discuss_issue"
+            android:title="FAQ &amp; About Us" />
+        <item
+            android:id="@+id/nav_tc"
+            android:icon="@drawable/ic_signing_the_contract"
+            android:title="Terms &amp; Conditions" />
 
-            <item
-                android:id="@+id/nav_report_bug"
-                android:icon="@drawable/ic_feedback_black_24dp"
-                android:title="Report Bug" />
-        
-            <item
-                android:id="@+id/nav_about_us"
-                android:icon="@drawable/ic_discuss_issue"
-                android:title="FAQ &amp; About Us" />
+        <item
+            android:id="@+id/nav_report_bug"
+            android:icon="@drawable/ic_feedback_black_24dp"
+            android:title="Report Bug" />
 
-            <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/logout"
-                android:title="Logout" />
 
-            <item
-                android:id="@+id/nav_tc"
-                android:icon="@drawable/ic_signing_the_contract"
-                android:title="Terms &amp; Conditions" />
-
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:title="Logout"
+            android:visible="true" />
 
 
     </group>

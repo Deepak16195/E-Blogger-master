@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,303 +8,393 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_5sdp">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Blog Category:"
-                android:textSize="@dimen/_15sdp"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_5sdp"/>
-
-            <Spinner
-                android:id="@+id/spinner_category"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/blog_categories"
-                android:prompt="@string/nav_header_title"
-                android:padding="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_20sdp"/>
-        </LinearLayout>
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_11sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Blog Category:"
+                    android:fontFamily="@font/montserratregular"
+                    android:textColor="@color/sp_main_color"
+                    android:textSize="@dimen/_12sdp" />
+
+                <Spinner
+                    android:id="@+id/spinner_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_33sdp"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+
+                    android:entries="@array/blog_categories"
+                    android:foreground="@drawable/my_custom_background"
+                    android:padding="@dimen/_5sdp"
+                    android:prompt="@string/nav_header_title" />
+            </LinearLayout>
 
 
-        <EditText
-            android:id="@+id/blog_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="15"
-            android:maxLength="150"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:hint="What would you like to name your Blog? "
-            android:textSize="@dimen/_15sdp" />
+            <!-- <EditText
+                  />-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="@dimen/_10sdp">
-
-        <ImageView
-            android:id="@+id/error_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_error_black_24dp"/>
-
-        <TextView
-            android:id="@+id/error_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_1sdp"
-            android:layout_marginTop="@dimen/_1sdp"
-            android:text="Please enter minimum 5 characters in Blog Header."
-            android:maxLength="200"
-            android:maxLines="3"
-            android:textColor="@color/error" />
-
-    </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_3sdp"
-            android:id="@+id/upload_image_1"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Upload Image - 1"
-                android:textColor="@color/black"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_1sdp"
-                android:textSize="@dimen/_12sdp"/>
-
-            <ImageView
-                android:layout_width="@dimen/_18sdp"
-                android:layout_height="@dimen/_18sdp"
-                android:src="@drawable/ic_file_upload_black_24dp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_gravity="start"/>
-        </LinearLayout>
+                android:textColorHint="@color/sp_main_color"
+                app:boxStrokeColor="@color/sp_main_color">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_gravity="center"
-            android:id="@+id/blog_image_1"/>
+                <EditText
+                    android:id="@+id/blog_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:ems="15"
+                    android:fontFamily="@font/montserratregular"
+                    android:hint="Blog Title"
+                    android:maxLength="150"
+                    android:textSize="@dimen/_10sdp" />
 
-        <ImageView
-            android:id="@+id/submit_cancel_image1"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:src="@drawable/ic_cancel_black_24dp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_gravity="center"
-            android:visibility="gone"/>
 
-        <EditText
-            android:id="@+id/blog_content1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:ems="15"
-            android:hint="Enter the content of Blog - Part 1"
-            android:textSize="@dimen/_15sdp" />
+            </android.support.design.widget.TextInputLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="@dimen/_10sdp">
-            <ImageView
-                android:id="@+id/error_image1"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_error_black_24dp"/>
-            <TextView
-                android:id="@+id/error_content1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_1sdp"
-                android:text="Length of Blog Content is very small. Please add more content."
-                android:maxLength="200"
-                android:maxLines="3"
-                android:textColor="@color/error"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_3sdp"
-            android:id="@+id/upload_image_2"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Upload Image - 2"
-                android:textColor="@color/black"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_1sdp"
-                android:textSize="@dimen/_12sdp"/>
+                android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="@dimen/_18sdp"
-                android:layout_height="@dimen/_18sdp"
-                android:src="@drawable/ic_file_upload_black_24dp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_5sdp"
+                <ImageView
+                    android:id="@+id/error_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_error_black_24dp" />
+
+                <TextView
+                    android:id="@+id/error_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:maxLength="200"
+                    android:maxLines="3"
+                    android:text="Please enter minimum 5 characters in Blog Header."
+                    android:textColor="@color/error" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/upload_image_1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_gravity="start"/>
-        </LinearLayout>
+                android:background="@drawable/my_custom_background"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/_3sdp"
+                android:visibility="gone" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:visibility="gone"
-            android:layout_gravity="center"
-            android:id="@+id/blog_image_2"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="Upload Image - 1"
+                    android:fontFamily="@font/montserratregular"
+                    android:textColor="@color/sp_main_color"
+                    android:textSize="@dimen/_12sdp" />
 
-        <ImageView
-            android:id="@+id/submit_cancel_image2"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:src="@drawable/ic_cancel_black_24dp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_gravity="center"
-            android:visibility="gone"/>
-
-        <EditText
-            android:id="@+id/blog_content2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:ems="15"
-            android:hint="Enter the content of Blog - Part 2"
-            android:textSize="@dimen/_15sdp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="@dimen/_10sdp">
+                <ImageView
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_gravity="start|center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/camera"
+                    android:tint="@color/sp_main_color" />
+            </LinearLayout>
 
             <ImageView
-                android:id="@+id/error_image2"
+                android:id="@+id/blog_image_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_error_black_24dp"/>
-            <TextView
-                android:id="@+id/error_content2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_1sdp"
-                android:text="Enter proper content in Paragraph 2"
-                android:maxLength="200"
-                android:maxLines="3"
-                android:textColor="@color/error"
-                />
-        </LinearLayout>
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp" />
 
-        <EditText
-            android:id="@+id/blog_footer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="15"
-            android:maxLength="100"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:hint="Enter the footer of Blog"
-            android:textSize="@dimen/_15sdp" />
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="@dimen/_10sdp">
             <ImageView
-                android:id="@+id/error_image3"
+                android:id="@+id/submit_cancel_image1"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:src="@drawable/ic_cancel_black_24dp"
+                android:tint="@color/sp_main_color"
+                android:visibility="gone" />
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:textColorHint="@color/sp_main_color"
+                app:boxStrokeColor="@color/sp_main_color">
+
+                <EditText
+                    android:id="@+id/blog_content1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:ems="15"
+                    android:fontFamily="@font/montserratregular"
+                    android:hint="Blog content - Part 1"
+                    android:textSize="@dimen/_10sdp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/error_image1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_error_black_24dp" />
+
+                <TextView
+                    android:id="@+id/error_content1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:maxLength="200"
+                    android:maxLines="3"
+                    android:text="Length of Blog Content is very small. Please add more content."
+                    android:textColor="@color/error" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/upload_image_2"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/my_custom_background"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:padding="@dimen/_3sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="Upload Image - 2"
+                    android:fontFamily="@font/montserratregular"
+                    android:textColor="@color/sp_main_color"
+                    android:textSize="@dimen/_12sdp" />
+
+                <ImageView
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_gravity="start|center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/camera"
+                    android:tint="@color/sp_main_color" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/blog_image_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_error_black_24dp"/>
-            <TextView
-                android:id="@+id/error_footer"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/submit_cancel_image2"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:src="@drawable/ic_cancel_black_24dp"
+                android:tint="@color/sp_main_color"
+                android:visibility="gone" />
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:textColorHint="@color/sp_main_color"
+                app:boxStrokeColor="@color/sp_main_color">
+
+                <EditText
+                    android:id="@+id/blog_content2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:ems="15"
+                    android:fontFamily="@font/montserratregular"
+                    android:hint="Blog content - Part 2"
+                    android:textSize="@dimen/_10sdp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/error_image2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_error_black_24dp" />
+
+                <TextView
+                    android:id="@+id/error_content2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:maxLength="200"
+                    android:maxLines="3"
+                    android:text="Enter proper content in Paragraph 2"
+                    android:textColor="@color/error" />
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:textColorHint="@color/sp_main_color"
+                app:boxStrokeColor="@color/sp_main_color">
+
+                <EditText
+                    android:id="@+id/blog_footer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:ems="15"
+                    android:fontFamily="@font/montserratregular"
+                    android:hint="Blog footer"
+                    android:maxLength="100"
+                    android:textSize="@dimen/_10sdp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/error_image3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_error_black_24dp" />
+
+                <TextView
+                    android:id="@+id/error_footer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:maxLength="200"
+                    android:maxLines="3"
+                    android:text="Footer cant be left blank"
+                    android:textColor="@color/error" />
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:textColorHint="@color/sp_main_color"
+                app:boxStrokeColor="@color/sp_main_color">
+
+                <EditText
+                    android:id="@+id/blogYoutubeEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:ems="15"
+                    android:fontFamily="@font/montserratregular"
+                    android:hint="YouTube Links"
+                    android:maxLength="100"
+                    android:textSize="@dimen/_10sdp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/submit_blog_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_1sdp"
-                android:text="Footer cant be left blank"
-                android:maxLength="200"
-                android:maxLines="3"
-                android:textColor="@color/error"
-                />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:background="@drawable/button_corner"
+                android:paddingStart="@dimen/_30sdp"
+                android:paddingEnd="@dimen/_30sdp"
+                android:text="Submit"
+                android:fontFamily="@font/montserratmedium"
+                android:textAllCaps="true"
+                android:textColor="#fff"
+                android:textSize="@dimen/_16sdp" />
+
+            <Button
+                android:id="@+id/update_blog_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:background="@drawable/button_corner"
+                android:paddingStart="@dimen/_30sdp"
+                android:paddingEnd="@dimen/_30sdp"
+                android:text="Update Blog"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="@dimen/_16sdp"
+                android:visibility="gone" />
+
         </LinearLayout>
-
-        <Button
-            android:id="@+id/submit_blog_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
-            android:background="@drawable/gradient_corner"
-            android:paddingEnd="@dimen/_30sdp"
-            android:paddingStart="@dimen/_30sdp"
-            android:text="Create Blog"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            android:textSize="@dimen/_16sdp" />
-
-        <Button
-            android:id="@+id/update_blog_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
-            android:background="@drawable/gradient_corner"
-            android:paddingEnd="@dimen/_30sdp"
-            android:paddingStart="@dimen/_30sdp"
-            android:text="Update Blog"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            android:textSize="@dimen/_16sdp"
-            android:visibility="gone"/>
-
-    </LinearLayout>
 
     </ScrollView>
 

@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/_10sdp"
-        android:background="@drawable/gradient_corner"
+        android:background="@drawable/button_corner"
         android:paddingEnd="@dimen/_30sdp"
         android:paddingStart="@dimen/_30sdp"
         android:text="Filter By Blogs Category"

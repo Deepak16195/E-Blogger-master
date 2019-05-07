@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.Show_ProfileActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/sp_main_color"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                app:theme="@style/ToolbarColoredBackArrow"
+                app:titleTextColor="@color/white" />
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_110sdp"
+                android:background="@drawable/profilebg"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight=".5"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:weightSum="2">
+
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/blog_image_item"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/button_bordercorner"
+                        android:scaleType="centerCrop"
+                        app:riv_corner_radius_bottom_left="@dimen/_5sdp"
+                        app:riv_corner_radius_bottom_right="@dimen/_5sdp"
+                        app:riv_corner_radius_top_left="@dimen/_5sdp"
+                        app:riv_corner_radius_top_right="@dimen/_5sdp" />
+
+                    <!--  <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                          android:id="@+id/meal_image_order"
+                          android:layout_width="70dp"
+                          android:layout_height="70dp"
+                          android:layout_alignParentLeft="true"
+                          android:layout_alignParentTop="true"
+                          android:src="@drawable/user_shadow"
+                          app:civ_border_color="@color/white"
+                          app:civ_border_width="2dp" />-->
+
+                    <TextView
+                        android:id="@+id/Tx_Edit"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:fontFamily="@font/montserrat_semi_bold"
+                        android:foreground="@drawable/button_border"
+                        android:gravity="center"
+                        android:text="Edit"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_8sdp"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1.5"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/Usename"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:fontFamily="@font/montserrat_semi_bold"
+                        android:gravity="center"
+                        android:text="Shreyas Shah"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/Mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:fontFamily="@font/montserrat_semi_bold"
+                        android:foreground="@drawable/button_bordercorner"
+                        android:gravity="center"
+                        android:text="Follow"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sdp" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="left|center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/bodonibold"
+                                android:text="100"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_18sdp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/bodonibold"
+                                android:text="Followers"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_14sdp" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="left|center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/bodonibold"
+                                android:text="100"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_18sdp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/bodonibold"
+                                android:text="Followings"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_14sdp" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/Blogcount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_semi_bold"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Blogs(10)"
+                    android:textSize="@dimen/_10sdp" />
+
+
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/blog_header_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:textSize="@dimen/_20sdp" />
+
+
+                    <TextView
+                        android:id="@+id/blog_content_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_below="@+id/blog_header"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="21dp"
+                        android:textSize="@dimen/_20sdp" />
+
+                    <TextView
+                        android:id="@+id/blog_footer_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_below="@+id/blog_content_text"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="22dp"
+                        android:textSize="@dimen/_15sdp" />
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/your_blogs"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/view_1">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                    <!--  <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                          android:id="@+id/yourBlogs_adView"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentBottom="true"
+                          android:layout_centerHorizontal="true"
+                          ads:adSize="SMART_BANNER"
+                          android:visibility="gone"
+                          ads:adUnitId="ca-app-pub-7722811932766421/2741139567"/>-->
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

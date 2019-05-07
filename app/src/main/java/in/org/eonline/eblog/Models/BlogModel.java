@@ -17,6 +17,25 @@ public class BlogModel {
     public String UserBlogImage2Url;
     public String blogTimeStamp;
     public String blogDate;
+    public String Views;
+    public String YouTubeLinks;
+    public Object AllComments;
+
+    public Object getAllComments() {
+        return AllComments;
+    }
+
+    public void setAllComments(Object allComments) {
+        AllComments = allComments;
+    }
+
+    public String getViews() {
+        return Views;
+    }
+
+    public void setViews(String views) {
+        Views = views;
+    }
 
     public String getBlogDate() {
         return blogDate;
@@ -43,6 +62,14 @@ public class BlogModel {
     }
 
     public String UserId;
+
+    public String getYouTubeLinks() {
+        return YouTubeLinks;
+    }
+
+    public void setYouTubeLinks(String youTubeLinks) {
+        YouTubeLinks = youTubeLinks;
+    }
 
     public String getUserBlogImage1Url() {
         return UserBlogImage1Url;

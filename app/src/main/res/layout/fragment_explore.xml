@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_2sdp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <ImageView
@@ -24,7 +24,7 @@
                 android:layout_height="@dimen/_13sdp"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:src="@drawable/filter"
-                android:tint="@color/gradient_start" />
+                android:tint="@color/sp_main_color" />
 
             <TextView
                 android:id="@+id/filter_blogs"
@@ -34,7 +34,7 @@
                 android:drawablePadding="@dimen/_5sdp"
                 android:padding="@dimen/_3sdp"
                 android:text="Explore Blogs By Topics"
-                android:textColor="@color/gradient_start" />
+                android:textColor="@color/sp_main_color" />
         </LinearLayout>
 
         <View
@@ -43,7 +43,9 @@
             android:layout_height="@dimen/_1sdp"
             android:layout_marginStart="@dimen/_40sdp"
             android:layout_marginEnd="@dimen/_40sdp"
-            android:background="@color/straightLine"></View>
+            android:visibility="gone"
+            android:background="@color/straightLine"
+            />
 
 
         <RelativeLayout
@@ -53,19 +55,28 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/popular_blogs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_50sdp">
+                android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
 
-            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/adView"
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                ads:adSize="SMART_BANNER"
-                ads:adUnitId="ca-app-pub-7293397784162310/9883067330"></com.google.android.gms.ads.AdView>
+                android:layout_centerHorizontal="true">
+
+                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    ads:adSize="SMART_BANNER"
+                    ads:adUnitId="ca-app-pub-7293397784162310/9883067330" />
+
+
+            </FrameLayout>
+
+
         </RelativeLayout>
 
     </LinearLayout>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +10,7 @@
         android:id="@+id/viewPagerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_60sdp">
+        android:layout_marginBottom="@dimen/_50sdp">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
@@ -30,7 +31,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_25sdp" />
+        android:layout_marginBottom="@dimen/_25sdp"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/Click_SingnIn"
@@ -41,10 +43,9 @@
         android:textColor="@color/white"
         android:drawableStart="@drawable/google"
         android:paddingStart="@dimen/_10sdp"
-        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_28sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
         android:layout_centerHorizontal="true" />
 
    <!-- <com.google.android.gms.common.SignInButton

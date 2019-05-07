@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Deepak"
         android:textSize="@dimen/_12sdp"
+        android:fontFamily="@font/montserratregular"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/_1sdp"
         android:textColor="@color/black"/>

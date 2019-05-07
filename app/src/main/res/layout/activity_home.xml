@@ -9,32 +9,192 @@
     tools:openDrawer="start">
 
     <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
-   <!-- <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <!-- <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:orientation="vertical">
 
 
-    </LinearLayout>-->
+     </LinearLayout>-->
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            layout="@layout/toolbar"
+        <LinearLayout
+            android:id="@+id/Show"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradients"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="center"
+                android:background="@color/sp_main_color"
+                android:gravity="center"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                android:visibility="gone"
+                app:elevation="0dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                app:theme="@style/ToolbarColoredBackArrow"
+                app:titleTextColor="@color/white" />
+
+            <RelativeLayout
+                android:id="@+id/ShowMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize">
+
+                        <ImageView
+                            android:id="@+id/ic_menu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="15dp"
+                            android:src="@drawable/ic_menu" />
+
+
+                        <ImageView
+                            android:id="@+id/Logo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:paddingTop="7dp"
+                            android:src="@drawable/logo_new"
+                            android:visibility="gone" />
+
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_110sdp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true">
+
+                            <ImageView
+                                android:id="@+id/ic_search"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="?selectableItemBackgroundBorderless"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_search"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/Filter"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:background="?selectableItemBackgroundBorderless"
+                                android:padding="@dimen/_10sdp"
+                                android:src="@drawable/filter_outline"
+                                android:visibility="visible" />
+
+
+                            <!-- <ImageView
+                                 android:id="@+id/ic_reward"
+                                 android:layout_width="6dp"
+                                 android:layout_height="match_parent"
+                                 android:layout_gravity="center"
+                                 android:layout_weight="1"
+                                 android:background="?selectableItemBackgroundBorderless"
+                                 android:padding="15dp"
+                                 android:src="@drawable/cups1" />-->
+
+                        </LinearLayout>
+
+
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_55sdp">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginTop="0dp"
+                            android:orientation="vertical" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:orientation="vertical" />
+
+
+                        <EditText
+                            android:id="@+id/Search"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_32sdp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:background="@drawable/bgground"
+                            android:drawableStart="@drawable/searchlogo"
+                            android:drawableLeft="@drawable/searchlogo"
+                            android:gravity="left|center"
+                            android:fontFamily="@font/montserratregular"
+                            android:hint="Search by stories, tags, users..."
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:textColor="@color/black" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentTop="true"
+                    app:srcCompat="@drawable/logo_new" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
 
         <FrameLayout
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
-            android:layout_below="@+id/toolbar"
+            android:layout_height="match_parent"
             android:layout_above="@+id/bnv_booking_list"
-            android:layout_height="match_parent">
-        </FrameLayout>
+            android:layout_below="@+id/Show" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bnv_booking_list"
@@ -42,9 +202,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
-            app:labelVisibilityMode="labeled"
+            android:theme="@style/Widget.BottomNavigationView"
             app:itemIconTint="@color/bnv_tab_item_foreground"
             app:itemTextColor="@color/bnv_tab_item_foreground"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/navigation" />
     </RelativeLayout>
 
@@ -54,6 +215,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:theme="@style/Widget.BottomNavigationView"
         app:headerLayout="@layout/nav_header_home"
         app:menu="@menu/activity_home_drawer" />
 

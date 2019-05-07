@@ -11,8 +11,7 @@
         android:id="@+id/img_pager_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_margin="@dimen/_30sdp"
-        android:padding="@dimen/_10sdp"/>
+        android:layout_marginLeft="-1dp"
+        android:scaleType="centerCrop" />
 
 </LinearLayout>

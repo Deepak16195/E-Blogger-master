@@ -24,7 +24,7 @@
         android:layout_height="@dimen/_80sdp"
         android:id="@+id/nav_imageView"
         android:background="@drawable/gradient_corner"
-        android:padding="@dimen/_2sdp" />
+        android:padding="1dp" />
 
     <TextView
         android:id="@+id/nav_user_name"
@@ -35,6 +35,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_gravity="center"
         android:textSize="@dimen/_10sdp"
+        android:fontFamily="@font/montserratregular"
         android:textStyle="bold"
         android:textColor="@color/white"/>
 
@@ -46,8 +47,6 @@
         android:layout_height="@dimen/_30sdp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/_1sdp"
-        android:layout_marginEnd="@dimen/_5sdp"
         app:srcCompat="@drawable/power" />
 
 </RelativeLayout>

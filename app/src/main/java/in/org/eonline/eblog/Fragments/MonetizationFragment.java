@@ -76,6 +76,11 @@ public class MonetizationFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static MonetizationFragment newInstance() {
+        MonetizationFragment fragment = new MonetizationFragment();
+        return fragment;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,7 +99,7 @@ public class MonetizationFragment extends Fragment {
         db.setFirestoreSettings(settings);
         initializeViews();
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        userId = sharedpreferences.getString("UserIdCreated","AdityaKamat75066406850");
+        userId = sharedpreferences.getString("UserIdCreated","Deepak9702173103");
         checkAdmobId();
         refreshMyProfile();
 

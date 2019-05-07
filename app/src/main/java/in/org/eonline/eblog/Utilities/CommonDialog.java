@@ -52,7 +52,7 @@ public class CommonDialog {
         dialog.setContentView(R.layout.progressbar);
         ProgressBar progress = (ProgressBar) dialog.findViewById(R.id.progressBarServerData);
         //progress.getIndeterminateDrawable().setColorFilter(context.getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         return dialog;
     }

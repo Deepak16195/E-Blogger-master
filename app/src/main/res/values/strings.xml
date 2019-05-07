@@ -18,6 +18,12 @@
     <string name="cancel">cancel</string>
     <string name="app_motto">Earn more by writing well</string>
 
+
+    <string name="hello">Hello World, OpenYouTubeActivity!</string>
+    <string name="youtubevideoid">YouTube Video ID</string>
+    <string name="viewVideoButton">View Using OpenYouTubeActivity!</string>
+    <string name="defaultYoutubeVideoId">tzgFuUu0oxg</string>
+
     <string name="terms_conditions_0">
         By creating a E-Blogger account, whether through a mobile device, mobile application or computer (collectively, the “Service”)
         you agree to be bound by these Terms of Use (this “Agreement”).

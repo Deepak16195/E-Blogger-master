@@ -1,22 +1,18 @@
-package in.org.eonline.eblog.Fragments;
+package in.org.eonline.eblog.Activities;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,17 +28,14 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.HashMap;
 import java.util.Map;
 
-import in.org.eonline.eblog.Models.BlogModel;
 import in.org.eonline.eblog.Models.BugModel;
-import in.org.eonline.eblog.Models.UserModel;
 import in.org.eonline.eblog.R;
-import in.org.eonline.eblog.SQLite.DatabaseHelper;
 import in.org.eonline.eblog.Utilities.CommonDialog;
 import in.org.eonline.eblog.Utilities.ConnectivityReceiver;
 import in.org.eonline.eblog.Utilities.FontClass;
 
 
-public class ReportBugFragment extends Fragment {
+public class ReportBugActivity extends AppCompatActivity {
     private EditText bugUserName;
     private EditText bugBrandMode1;
     private EditText bugOSVersion;
@@ -69,42 +62,50 @@ public class ReportBugFragment extends Fragment {
     private AdView mAdView;
 
 
-    public ReportBugFragment() {
+    public ReportBugActivity() {
         // Required empty public constructor
-    }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report_bug, container, false);
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //To make activity Full Screen
+        setContentView(R.layout.fragment_report_bug);
         initializeViews();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
         db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
         db.setFirestoreSettings(settings);
-        refreshMyProfile();
-        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        userId = sharedpreferences.getString("UserIdCreated","AdityaKamat75066406850");
+       // refreshMyProfile();
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        userId = sharedpreferences.getString("UserIdCreated","Deepak9702173103");
 
         submitBugFunction();
 
-        MobileAds.initialize(getContext(),"ca-app-pub-7722811932766421~9001519486");
-        mAdView = (AdView) getView().findViewById(R.id.reportBug_adView);
+        MobileAds.initialize(ReportBugActivity.this,"ca-app-pub-7722811932766421~9001519486");
+        mAdView = (AdView) findViewById(R.id.reportBug_adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        ViewGroup myMostParentLayout = (ViewGroup) getView().findViewById(R.id.reportBug_layout);
-        FontClass.getInstance(getActivity()).setFontToAllChilds(myMostParentLayout);
+        ViewGroup myMostParentLayout = (ViewGroup) findViewById(R.id.reportBug_layout);
+        FontClass.getInstance(ReportBugActivity.this).setFontToAllChilds(myMostParentLayout);
     }
 
     public void submitBugFunction(){
-        connectivityReceiver = new ConnectivityReceiver(getActivity());
+        connectivityReceiver = new ConnectivityReceiver(ReportBugActivity.this);
         // Initialize SDK before setContentView(Layout ID)
         isInternetPresent = connectivityReceiver.isConnectingToInternet();
         if (isInternetPresent) {
@@ -117,32 +118,32 @@ public class ReportBugFragment extends Fragment {
                 }
             });
         } else {
-            CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.no_internet);
+            CommonDialog.getInstance().showErrorDialog(ReportBugActivity.this, R.drawable.no_internet);
 
             //Toast.makeText(Login.this, "No Internet Connection, Please connect to Internet.", Toast.LENGTH_LONG).show();
         }
     }
 
     public void initializeViews() {
-        bugUserName = (EditText) getView().findViewById(R.id.reporter_name);
-        bugBrandMode1 = (EditText) getView().findViewById(R.id.reporter_brand_model);
-        bugOSVersion = (EditText) getView().findViewById(R.id.reporter_OS_version);
-        bugMessage= (EditText) getView().findViewById(R.id.reporter_message);
-        submitBug = (Button) getView().findViewById(R.id.submit_report_bug);
-        errorBrand= (TextView) getView().findViewById(R.id.error_brand);
-        errorName=(TextView) getView().findViewById(R.id.error_name);
-        errorOSVersion=(TextView) getView().findViewById(R.id.error_version);
-        errorMessage=(TextView) getView().findViewById(R.id.error_message);
-        errorImage1=(ImageView) getView().findViewById(R.id.error1_image);
-        errorImage2=(ImageView) getView().findViewById(R.id.error2_image);
-        errorImage3=(ImageView) getView().findViewById(R.id.error3_image);
-        errorImage4=(ImageView) getView().findViewById(R.id.error4_image);
+        bugUserName = (EditText) findViewById(R.id.reporter_name);
+        bugBrandMode1 = (EditText) findViewById(R.id.reporter_brand_model);
+        bugOSVersion = (EditText) findViewById(R.id.reporter_OS_version);
+        bugMessage= (EditText) findViewById(R.id.reporter_message);
+        submitBug = (Button) findViewById(R.id.submit_report_bug);
+        errorBrand= (TextView) findViewById(R.id.error_brand);
+        errorName=(TextView) findViewById(R.id.error_name);
+        errorOSVersion=(TextView) findViewById(R.id.error_version);
+        errorMessage=(TextView) findViewById(R.id.error_message);
+        errorImage1=(ImageView) findViewById(R.id.error1_image);
+        errorImage2=(ImageView) findViewById(R.id.error2_image);
+        errorImage3=(ImageView) findViewById(R.id.error3_image);
+        errorImage4=(ImageView) findViewById(R.id.error4_image);
         setVisibilityGone();
-        mySwipeRequestLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh_report_bug);
+        mySwipeRequestLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh_report_bug);
     }
 
 
-    public void refreshMyProfile(){
+  /*  public void refreshMyProfile(){
 
         mySwipeRequestLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -161,7 +162,7 @@ public class ReportBugFragment extends Fragment {
         ft.attach(frg);
         ft.commit();
         clearEditText();
-    }
+    }*/
 
     public void setVisibilityGone(){
         errorMessage.setVisibility(View.GONE);
@@ -212,15 +213,15 @@ public void validateData(){
       }
 }
     public void addBugDataToFirebase(){
-        connectivityReceiver = new ConnectivityReceiver(getActivity());
+        connectivityReceiver = new ConnectivityReceiver(ReportBugActivity.this);
         // Initialize SDK before setContentView(Layout ID)
         isInternetPresent = connectivityReceiver.isConnectingToInternet();
         if (isInternetPresent) {
-            dialog = CommonDialog.getInstance().showProgressDialog(getActivity());
+            dialog = CommonDialog.getInstance().showProgressDialog(ReportBugActivity.this);
             dialog.show();
             addBugtoUserFirebase();
         } else {
-            CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.no_internet);
+            CommonDialog.getInstance().showErrorDialog(ReportBugActivity.this, R.drawable.no_internet);
 
             //Toast.makeText(Login.this, "No Internet Connection, Please connect to Internet.", Toast.LENGTH_LONG).show();
         }
@@ -232,7 +233,7 @@ public void validateData(){
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getActivity(), "Bug is reported", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ReportBugActivity.this, "Bug is reported", Toast.LENGTH_LONG).show();
                         if (dialog != null && dialog.isShowing()) {
                             dialog.dismiss();
                         }
@@ -242,8 +243,8 @@ public void validateData(){
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        CommonDialog.getInstance().showErrorDialog(getActivity(), R.drawable.failure_image);
-                        Toast.makeText(getActivity(), "Some error occured while reporting bug", Toast.LENGTH_LONG).show();
+                        CommonDialog.getInstance().showErrorDialog(ReportBugActivity.this, R.drawable.failure_image);
+                        Toast.makeText(ReportBugActivity.this, "Some error occured while reporting bug", Toast.LENGTH_LONG).show();
                         if (dialog != null && dialog.isShowing()) {
                             dialog.dismiss();
                         }
